@@ -1,7 +1,7 @@
 # author: Ashish Surve
 
 # person detection video example using tiny yolo model.
-
+# demo file for person detector.
 # import necessary packages
 from PersonDetector import person_detection as od
 import cv2

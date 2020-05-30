@@ -4,7 +4,9 @@ import numpy as np
 
 initialize = True
 net = None
-dest_dir = os.path.curdir
+
+# directory having yolo files
+dest_dir = os.path.dirname(os.path.abspath(__file__))
 COLORS = np.random.uniform(0, 255, size=(80, 3))
 
 
@@ -40,7 +42,7 @@ def draw_bbox(img, bbox, labels, confidence, colors=None, write_conf=False):
         if colors is None:
             color = COLORS[classes.index(label)]
         else:
-            color = colors[classes.index(label)]
+            color = colors
 
         if write_conf:
             label += ' ' + str(format(confidence[i] * 100, '.2f')) + '%'
