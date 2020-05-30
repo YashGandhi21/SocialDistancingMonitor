@@ -59,9 +59,9 @@ def Funct_Perform_Homography(input_image, people_coordinates_list):
 
 
     warped_pt = cv2.warpPerspective(cap, matrix, (max_x, max_y))
-    Original_to_homographed_points_pickle_file_name = map_points_to_homography_coordinates(people_coordinates_list)
+    Original_Homographed_dict = map_points_to_homography_coordinates(people_coordinates_list)
 
 
     #return matrix, max_x, max_y
     #returning name of pickle file or return "Original_Homographed_dict" dictionary
-    return "Original_to_homographed_points_dictionary"
+    return Original_Homographed_dict

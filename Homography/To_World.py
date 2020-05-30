@@ -16,7 +16,7 @@ def map_points_to_homography_coordinates(people_coordinates_list):
 
     save_original_to_homgraphed_mapping()
 
-    return "Original_to_homographed_points_dictionary"
+    return Original_Homographed_dict
 
 def toworld(o_point, matrix):
     imagepoint = [o_point[0], o_point[1], 1]
