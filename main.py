@@ -3,6 +3,8 @@
 # main module for social distancing monitor
 
 import PersonDetector as pd
+import Homography as hg
+import DistancingModule as dm
 import cv2
 import time
 
@@ -11,6 +13,8 @@ def main():
     # change this hardcoded later
     source = "video1.mp4"
 
+    # Demo on/off switch
+    demo = True
     video = cv2.VideoCapture(source)
 
     while video.isOpened():
@@ -24,10 +28,24 @@ def main():
         # apply object detection
         bbox, label, conf = pd.detect_common_objects(frame, confidence=0.4, model='yolov3-tiny', enable_gpu=False)
 
-        # draw points
+        # get points
         points = pd.box_to_point(bbox)
         for point in points:
             frame = cv2.circle(frame, point, 4, (255, 0, 0), 3)
+
+        # call to Homograph module
+        homograph_calibrate = True
+        if homograph_calibrate:
+            mapped_points_dict = hg.Funct_Perform_Homography(frame, points)
+            homograph_calibrate = False
+        else:
+            mapped_points_dict = hg.map_points_to_homography_coordinates(points)
+
+        # call to distancing module
+        # TODO : return frames.
+        top_view_frame, _ = dm.red_coordinates_from_coordinates(mapped_points_dict)
+        # top_view_frame = cv2.resize(top_view_frame, (frame.shape[1], frame.shape[0]))
+        cv2.imshow("TopView", top_view_frame)
 
         # draw bounding boxes
         frame = pd.draw_bbox(frame, bbox, label, conf, write_conf=True, colors=(0, 255, 0))
@@ -35,9 +53,9 @@ def main():
                     cv2.FONT_HERSHEY_PLAIN, 1, (0, 255, 0), 3)
 
         # display output
-        cv2.imshow("Real-time object detection", frame)
-
-        print("FPS: ", 1.0 / (time.time() - start_time))
+        if demo:
+            cv2.imshow("Real-time object detection", frame)
+            print("FPS: ", 1.0 / (time.time() - start_time))
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break

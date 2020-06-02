@@ -73,22 +73,21 @@ def original_coordinates_of_red_dots(coordinates, red_dots):
 
 
 def red_coordinates_from_coordinates(coordinates):
-
         new_coordinates = list(coordinates.keys())
 
         plot_points(new_coordinates)
 
-        cv2.imshow(window_name, img)            # Displaying the image
-        cv2.waitKey(500)
+        # cv2.imshow(window_name, img)            # Displaying the image
+        # cv2.waitKey(500)
 
         red_dots = social_distancing(new_coordinates)
 
-        cv2.imshow(window_name, img)            # Displaying the image
-        cv2.waitKey(1000)
-        cv2.destroyAllWindows()
+        # cv2.imshow(window_name, img)            # Displaying the image
+        # cv2.waitKey(1000)
+        # cv2.destroyAllWindows()
 
         red_coordinates = original_coordinates_of_red_dots(coordinates, red_dots)
 
-        return red_coordinates
+        return img, red_coordinates
 
 

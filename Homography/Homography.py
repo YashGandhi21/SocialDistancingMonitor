@@ -10,8 +10,9 @@ from matplotlib import pyplot as plt
 import numpy as np
 from scipy.spatial import distance
 import pickle
-import Perform_Homography as ph
-from To_World import map_points_to_homography_coordinates
+import Homography.Perform_Homography as ph
+from Homography.To_World import map_points_to_homography_coordinates
+
 
 mouse_pts = []
 
@@ -32,7 +33,7 @@ def get_mouse_points(event, x, y, flags, param):
 def Funct_Perform_Homography(input_image, people_coordinates_list):
     # In[211]:
     global cap
-    cap = cv2.imread(input_image)
+    cap = input_image
     print(cap.shape)
 
     social_distance = 6912  # 1feet = 1152 pixels, hence 6 feet is 6912 pixels
