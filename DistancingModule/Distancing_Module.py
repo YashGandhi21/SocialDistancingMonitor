@@ -5,18 +5,12 @@ import math
 width = 800
 height = 600
 
-# Make empty black image of size width and height
-img = np.zeros((height, width, 3), np.uint8)
-
-window_name = 'Image'
-
-
 def distance_between_dots(x1, y1, x2, y2):
 
         dist = math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
         return dist
 
-def draw_dots(x, y, colour):
+def draw_dots(img, x, y, colour):
 
         center_coordinates = (x, y)     # Center coordinates
         radius = 4                      # Radius of circle
@@ -30,12 +24,11 @@ def draw_dots(x, y, colour):
                 color = (255, 255, 255)
 
         thickness = -1                  # Line thickness of -1 px
-        
-        global img 
+         
         img = cv2.circle(img, center_coordinates, radius, color, thickness)     # Using cv2.circle() method
-   
+        return img
 
-def social_distancing(coordinates):
+def social_distancing(img, coordinates):
        
         red_dots = []
         for x1, y1 in coordinates:
@@ -46,20 +39,21 @@ def social_distancing(coordinates):
                         distance = distance_between_dots(x1, y1, x2, y2)
                         
                         if distance < 15:
-                                draw_dots(x1, y1, "red")
-                                draw_dots(x2, y2, "red")
+                                img = draw_dots(img, x1, y1, "red")
+                                img = draw_dots(img, x2, y2, "red")
                                 red_dots.append((x1, y1))
                                 red_dots.append((x2, y2))
         
         temp_red_dots = set(red_dots)
         red_dots = list(temp_red_dots)
 
-        return red_dots
+        return img, red_dots
 
 
-def plot_points(coordinates):
+def plot_points(img, coordinates):
         for x, y in coordinates:
-                draw_dots(x, y, "white")
+                img = draw_dots(img, x, y, "white")
+        return img
 
 def original_coordinates_of_red_dots(coordinates, red_dots):
         
@@ -73,18 +67,15 @@ def original_coordinates_of_red_dots(coordinates, red_dots):
 
 
 def red_coordinates_from_coordinates(coordinates):
+        
+        # Make empty black image of size width and height
+        img = np.zeros((height, width, 3), np.uint8)
+
         new_coordinates = list(coordinates.keys())
 
-        plot_points(new_coordinates)
+        img = plot_points(img, new_coordinates)
 
-        # cv2.imshow(window_name, img)            # Displaying the image
-        # cv2.waitKey(500)
-
-        red_dots = social_distancing(new_coordinates)
-
-        # cv2.imshow(window_name, img)            # Displaying the image
-        # cv2.waitKey(1000)
-        # cv2.destroyAllWindows()
+        img, red_dots = social_distancing(img, new_coordinates)
 
         red_coordinates = original_coordinates_of_red_dots(coordinates, red_dots)
 
