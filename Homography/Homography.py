@@ -13,25 +13,25 @@ from Homography.To_World import map_points_to_homography_coordinates
 
 mouse_pts = []
 
-def get_mouse_points(event, x, y, flags, param):
-    # Used to mark 4 points on the frame zero of the video that will be warped
-    # Used to mark 2 points on the frame zero of the video that are 6 feet away
-    global mouseX, mouseY, mouse_pts
-    if event == cv2.EVENT_LBUTTONDOWN:
-        mouseX, mouseY = x, y
-        cv2.circle(cap, (x, y), 5, (0, 255, 255), 10)
-        if "mouse_pts" not in globals():
-            mouse_pts = []
+
+
+#call this function for this file
+def Funct_Perform_Homography(input_image):
+    # In[211]:
+    cap = input_image
+    print(cap.shape)
+    def get_mouse_points(event, x, y, flags, param):
+        # Used to mark 4 points on the frame zero of the video that will be warped
+        # Used to mark 2 points on the frame zero of the video that are 6 feet away
+        global mouseX, mouseY, mouse_pts
+        if event == cv2.EVENT_LBUTTONDOWN:
+            mouseX, mouseY = x, y
+            cv2.circle(cap, (x, y), 5, (0, 255, 255), 10)
+            if "mouse_pts" not in globals():
+                mouse_pts = []
         mouse_pts.append((x, y))
         print("Point detected")
         print(mouse_pts)
-
-#call this function for this file
-def Funct_Perform_Homography(input_image, people_coordinates_list):
-    # In[211]:
-    global cap
-    cap = input_image
-    print(cap.shape)
 
     #social_distance = 6912  # 1feet = 1152 pixels, hence 6 feet is 6912 pixels
 
@@ -58,9 +58,9 @@ def Funct_Perform_Homography(input_image, people_coordinates_list):
 
 
     #warped_pt = cv2.warpPerspective(cap, matrix, (max_x, max_y))
-    Original_Homographed_dict = map_points_to_homography_coordinates(people_coordinates_list)
+    #Original_Homographed_dict = map_points_to_homography_coordinates(people_coordinates_list)
 
 
     #return matrix, max_x, max_y
     #returning name of pickle file or return "Original_Homographed_dict" dictionary
-    return Original_Homographed_dict
+    #return Original_Homographed_dict

@@ -54,7 +54,7 @@ def main():
         # Heat-Map Module calls
         # convert list of tuple to 2 lists
         # x, y = hm.list_of_tuples_to_list_x_and_y(points)
-        imgo = hm.HeatMapAuto(points)
+        #imgo = hm.HeatMapAuto(points)
         #cv2.imshow("Heatmap",imgo)
 
         # draw bounding boxes
