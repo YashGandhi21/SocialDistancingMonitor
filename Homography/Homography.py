@@ -29,9 +29,9 @@ def Funct_Perform_Homography(input_image):
             cv2.circle(cap, (x, y), 5, (0, 255, 255), 10)
             if "mouse_pts" not in globals():
                 mouse_pts = []
-        mouse_pts.append((x, y))
-        print("Point detected")
-        print(mouse_pts)
+            mouse_pts.append((x, y))
+            print("Point detected")
+            print(mouse_pts)
 
     #social_distance = 6912  # 1feet = 1152 pixels, hence 6 feet is 6912 pixels
 
@@ -42,14 +42,14 @@ def Funct_Perform_Homography(input_image):
         size = pickle.load(open("Image Size", "rb"))
         max_x, max_y = size[0], size[1]
     except:
-        cv2.namedWindow("image")
-        cv2.setMouseCallback("image", get_mouse_points)
+        cv2.namedWindow("mark 4 points for caliberation - order -> top-left, top-right, bottom-right, bottom-left")
+        cv2.setMouseCallback("mark 4 points for caliberation - order -> top-left, top-right, bottom-right, bottom-left", get_mouse_points)
         # Ask user to mark parallel points. Order tl, tr, br, bl
         while True:
-            cv2.imshow("image", cap)
+            cv2.imshow("mark 4 points for caliberation - order -> top-left, top-right, bottom-right, bottom-left", cap)
             cv2.waitKey(1)
             if len(mouse_pts) >= 4:
-                cv2.destroyWindow("image")
+                cv2.destroyWindow("mark 4 points for caliberation - order -> top-left, top-right, bottom-right, bottom-left")
                 break
             four_points = mouse_pts
         pts = np.array([four_points[0], four_points[1], four_points[2], four_points[3]], np.int32)
