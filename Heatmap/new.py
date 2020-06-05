@@ -3,6 +3,20 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+def fig2img(fig):
+    from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+    from matplotlib.figure import Figure
+
+    canvas = FigureCanvas(fig)
+    ax = fig.gca()
+
+    ax.axis('off')
+
+    canvas.draw()  # draw the canvas, cache the renderer
+    width, height = fig.get_size_inches() * fig.get_dpi()
+    image = np.fromstring(canvas.tostring_rgb(), dtype='uint8').reshape(int(height), int(width), 3)
+    return image
+
 def HeatMapAuto(list1):
 
     x, y = [coord[0] for coord in list1], [coord[1] for coord in list1]
@@ -26,6 +40,7 @@ def HeatMapAuto(list1):
     #plt.savefig('kde.png')
     #plt.show()
     return plt
+
 def HeatMapAutoNext(list1,plt1):
     x, y = [coord[0] for coord in list1], [coord[1] for coord in list1]
     print(x)

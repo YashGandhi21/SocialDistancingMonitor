@@ -1,14 +1,15 @@
 # author: Ashish Surve
 
 # main module for social distancing monitor
-
+import matplotlib.pyplot as plt
 import PersonDetector as pd
 import Homography as hg
 import DistancingModule as dm
+import Heatmap as hm
 import cv2
 import time
-
-
+from PIL import Image
+import numpy as np
 def main():
     # change this hardcoded later
     source = "video1.mp4"
@@ -35,6 +36,9 @@ def main():
 
         # call to Homograph module
         homograph_calibrate = True
+
+        # Call the first if only 1st frame then rest call to else
+        # because that's how the module developer intended it to be called.
         if homograph_calibrate:
             mapped_points_dict = hg.Funct_Perform_Homography(frame, points)
             homograph_calibrate = False
@@ -46,6 +50,12 @@ def main():
         top_view_frame, _ = dm.red_coordinates_from_coordinates(mapped_points_dict)
         # top_view_frame = cv2.resize(top_view_frame, (frame.shape[1], frame.shape[0]))
         cv2.imshow("TopView", top_view_frame)
+
+        # Heat-Map Module calls
+        # convert list of tuple to 2 lists
+        # x, y = hm.list_of_tuples_to_list_x_and_y(points)
+        imgo = hm.HeatMapAuto(points)
+        #cv2.imshow("Heatmap",imgo)
 
         # draw bounding boxes
         frame = pd.draw_bbox(frame, bbox, label, conf, write_conf=True, colors=(0, 255, 0))

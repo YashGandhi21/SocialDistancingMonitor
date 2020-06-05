@@ -11,6 +11,11 @@ Original_Homographed_dict = {}
 def map_points_to_homography_coordinates(people_coordinates_list):
     matrix = pickle.load(open("Homography matrix", "rb"))
 
+    # Added by Ashish Surve
+    # WHY : the points in new frames were appended and the global variable wasn't reset in multiple calls.
+    # TODO : Remove the global variables.
+    global Original_Homographed_dict
+    Original_Homographed_dict = {}
     for point in people_coordinates_list:
         toworld(point, matrix)
 
