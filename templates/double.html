@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Live Demo Streaming Demonstration</title>
+</head>
+<body>
+    <div>
+        <center>
+            <br>
+            <br>
+        <div class="row">
+            <div class="col">
+                <h3 >Live Demo Streaming Demonstration</h3>
+            </div>
+            <div class="col">
+                <h3 >Heat map will be Shown Here</h3>
+            </div>
+        </div>
+        <br>
+        <br>
+        
+        <div class="row">
+            
+            <div class="col">
+                <!-- <div class="col-sm"> -->
+                <!-- <h3 class="mt-5">Live Demo Streaming Demonstration</h3> -->
+                <!-- <img src="{{ url_for('static',filename='logo.png') }}" width="50%"> -->
+                <img src="{{ url_for('first') }}" width="80%">
+            </div>
+            <div class="col">
+                
+                <!-- <h3 class="mt-5">Second File live streaming Demo</h3> -->
+                <!-- <img src="{{ url_for('static',filename='logo.png') }}" width="50%"> -->
+                <img src="{{ url_for('second') }}" width="80%">
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col">
+                No Face Detection applied here.
+            </div>
+            <div class="col">
+                Faces Found are = <p id="count" style="display:inline" >temp text</p>
+            </div>
+        </div>
+
+        <br>
+        <!-- <a href="{{ url_for('stopCam') }}">StopCam</a> -->
+        <a href="{{ url_for('stopCam') }}">StopCam</a>
+        <br>
+        <input type="button" id="btn" value="Capture" />
+        <input type="button" id="del" value="Delete"/>
+        <br>
+
+        <div class="row">
+            <div class="col" id="firstImage">
+                
+            </div>
+            <div class="col" id="secondImage">
+                
+            </div>
+            <br>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col">
+                <p id="localText" style="display:inline" ></p>
+            </div>
+            <div class="col">
+                <p id="counted" style="display:inline" ></p>
+            </div>
+        </div>
+    </center>
+    </div>
+
+<script>
+
+//var gblCount = 0
+
+    document.getElementById('btn').onclick = function() {
+        var img1 = new Image();
+        src1 = "{{ url_for('pauseFirst') }}"
+                
+                //img = document.createElement('img');
+        img1.src = src1;
+        img1.id = "pauseFirst"
+        img1.setAttribute("class","rounded float-right")
+        //img1.width = "100%"
+        img1.setAttribute("width","100%")
+        //document.body.appendChild(img1);
+        document.getElementById("firstImage").appendChild(img1)
+
+        var img2 = new Image();
+        src2 = "{{ url_for('pauseSecond') }}"
+        img2.src = src2;
+        img2.id = "pauseSecond"
+        img2.setAttribute("class","rounded float-left")
+        //img2.width = "100%"
+        img2.setAttribute("width","100%")
+        document.getElementById("secondImage").appendChild(img2)
+        //document.body.appendChild(img2);
+
+        //for adding text
+
+    fetch("{{ url_for('stream_json') }}").then(response => {
+
+        response.text().then(t=> { 
+                obj=JSON.parse(t); 
+                t = obj["count"]; 
+        document.getElementById("counted").innerHTML = "Faces found in above frame is = "+ t;
+        document.getElementById("localText").innerHTML = "No Face Detection applied here";
+            //gblCount = t
+            })
+     
+
+ });
+
+                
+        console.log("2 image added")
+
+                //src = '';
+
+        }
+
+    document.getElementById("del").onclick = function() {
+        var img1 = document.getElementById('pauseFirst')
+        img1.parentNode.removeChild(img1);
+        var img2 = document.getElementById('pauseSecond')
+        img2.parentNode.removeChild(img2);
+        document.getElementById("counted").innerHTML = "";
+        document.getElementById("localText").innerHTML = "";
+    }
+    
+
+//This is for getting the JSON data
+
+var count = document.getElementById("count");
+setInterval(() => {
+fetch("{{ url_for('stream_json') }}").then(
+ response => {
+     
+     
+     response.text().then(t=> { 
+        obj=JSON.parse(t); 
+        t = obj["count"]; 
+        count.innerHTML = t;
+        //gblCount = t
+        })
+     
+
+ });
+ 
+},500);
+
+</script>
+</body>
+</html>

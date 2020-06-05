@@ -1,0 +1,53 @@
+
+h4 { text-align: center;
+    font-family: verdana;
+    font-weight:bolder;
+    animation: mythird 10s linear 2s infinite alternate;
+}
+
+h3 {text-align: center;
+    font-family: verdana;
+    font-weight:bolder;
+    color: fuchsia;
+}
+
+p {text-align: center;
+    font-family: verdana;
+    font-weight: bold;
+    font-style: oblique;
+    color:fuchsia;
+}
+
+@keyframes mythird {
+  0%   {color:lightblue;}
+  25%  {color:darkslategray;}
+  50%  {color:red;}
+  75%  {color:yellow;}
+  100% {color:tomato;}
+}
+
+.input {width: 50%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: none;
+  background-color:mediumpurple;
+  color: white;
+  border-radius: 12px;
+}
+
+#submit {background-color: dodgerblue;
+  color: white;
+  padding: 14px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+    border-radius: 12px;
+    transition-duration: 0.4s;}
+
+#submit:hover, #submit:active {
+  background-color: green;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);}
+
+
+body {background-color: lightblue;}

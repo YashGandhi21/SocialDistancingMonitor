@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Live Streaming Demonstration</title>
+</head>
+<body>
+<div>
+    <center>
+    <div class="row">
+        <div class="col-lg-8  offset-lg-2">
+            <!-- <div class="col-sm"> -->
+            <h3 class="mt-5">Live Face Detection Streaming Demonstration</h3>
+            <img src="{{ url_for('video_feed') }}" width="65%" id="stream">
+            </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-lg-8  offset-lg-2">
+            Number of Faces Found are = <p id="count" style="display:inline" >0</p>
+    
+    </div>
+    </div> 
+    <br>
+    <a href="{{ url_for('stopCam') }}">StopCam</a>
+</center>
+</div>
+
+<script>
+var count = document.getElementById("count");
+count.innerHTML = 0;
+setInterval(() => {
+fetch("{{ url_for('stream_json') }}").then(
+ response => {
+     
+     
+     response.text().then(t=> { obj=JSON.parse(t); t = obj["count"]; count.innerHTML = t;})
+     
+
+ });
+ 
+},500);
+
+</script>
+</body>
+</html>

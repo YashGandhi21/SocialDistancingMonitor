@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="{{ url_for('static',filename='styles/design.css') }}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Live Streaming Demonstration</title>
+
+</head>
+<body>
+<div class="container">
+    <br> <br>
+    <div class="row">
+        <div class="col-9">
+            <h1>Persistent Hackathon</h1>
+        </div>
+        <div class="col-3">
+            <img src ="{{ url_for('static',filename='logo.png') }}" width="80%" height="80%" >
+        </div>
+    </div>
+
+    <div class="row align-top" >
+        <h3>Social Distancing Analyser</h3>
+    </div>
+    <br>
+    <br>
+    
+        <div class="row">
+            
+                <a href="./camera" >camera view only</a>
+            
+        </div>
+        <br>
+        <div class="row">
+            <a href="./cam">Start camera face Detection streaming</a>
+        </div>
+        <br>
+        <div class="row">
+            <a href="./demo">Show a demo</a>
+        </div>
+        <br>
+        <div class="row">
+            <a href="./double">Show a Double</a>
+        </div>
+        <br>
+        <div class="row">
+            <a href="./getip">Mobile Camera</a>
+        </div>
+   
+</div>
+</body>
+</html>
