@@ -1,8 +1,4 @@
-import cv2
-import os
-from matplotlib import pyplot as plt
 import numpy as np
-from scipy.spatial import distance
 import pickle
 
 Original_Homographed_dict = {}
