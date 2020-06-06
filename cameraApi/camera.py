@@ -1,6 +1,7 @@
 import cv2
 import requests
 import numpy as np
+import platform
 # cascPath = 'static\\haarcascade_frontalface_dataset.xml'
 # faceCascade = cv2.CascadeClassifier(cascPath)
 
@@ -13,7 +14,10 @@ def startWebCamera_Stream():
 
 def openVideoFile_Stream():
     print("open file stream")
-    video_capture = cv2.VideoCapture('videos\\video6.mp4')
+    if platform.system()=='Windows':
+        video_capture = cv2.VideoCapture('videos\\video6.mp4')
+    elif platform.system()=='Linux':
+        video_capture = cv2.VideoCapture('videos/video6.mp4')
     #video_capture.set(cv2.CAP_PROP_FPS, 10)
     #print("Changes applied are res = ",video_capture.set(cv2.CAP_PROP_FPS, 30))
     return video_capture
@@ -58,7 +62,10 @@ def playVideo(video_capture,wid,hei):
 
 
 def facedetection(video_capture):
-    cascPath = 'static\\haarcascade_frontalface_dataset.xml'
+    if platform.system()=='Windows':
+        cascPath = 'static\\haarcascade_frontalface_dataset.xml'
+    elif platform.system()=='Linux':
+        cascPath = 'static/haarcascade_frontalface_dataset.xml'
     faceCascade = cv2.CascadeClassifier(cascPath)
     ret, frame = video_capture.read()
     
@@ -92,7 +99,10 @@ def facedetection(video_capture):
 
 
 def facedetecFromFrame(frame):
-    cascPath = 'static\\haarcascade_frontalface_dataset.xml'
+    if platform.system()=='Windows':
+        cascPath = 'static\\haarcascade_frontalface_dataset.xml'
+    elif platform.system()=='Linux':
+        cascPath = 'static/haarcascade_frontalface_dataset.xml'
     faceCascade = cv2.CascadeClassifier(cascPath)
     frame = cv2.resize(frame, (480,320))
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
