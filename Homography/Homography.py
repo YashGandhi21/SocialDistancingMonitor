@@ -14,7 +14,7 @@ mouse_pts = []
 
 
 # call this function for this file
-def Funct_Perform_Homography(input_image):
+def caliberate_camera(input_image):
     # In[211]:
     cap = input_image
     print(cap.shape)
@@ -33,30 +33,32 @@ def Funct_Perform_Homography(input_image):
 
     # social_distance = 6912  # 1feet = 1152 pixels, hence 6 feet is 6912 pixels
 
-    try:
-        matrix = pickle.load(open("Homography matrix", "rb"))
-        size = pickle.load(open("Image Size", "rb"))
-        max_x, max_y = size[0], size[1]
-    except:
-        cv2.namedWindow("mark 4 points for caliberation - order -> top-left, top-right, bottom-right, bottom-left")
-        cv2.setMouseCallback("mark 4 points for caliberation - order -> top-left, top-right, bottom-right, bottom-left",
+# =============================================================================
+#     try:
+#         matrix = pickle.load(open("Homography matrix", "rb"))
+#         size = pickle.load(open("Image Size", "rb"))
+#         max_x, max_y = size[0], size[1]
+#     except:
+# =============================================================================
+            
+    cv2.namedWindow("mark 4 points for caliberation - order -> top-left, top-right, bottom-right, bottom-left")
+    cv2.setMouseCallback("mark 4 points for caliberation - order -> top-left, top-right, bottom-right, bottom-left",
                              get_mouse_points)
         # Ask user to mark parallel points. Order tl, tr, br, bl
-        while True:
-            cv2.imshow("mark 4 points for caliberation - order -> top-left, top-right, bottom-right, bottom-left", cap)
-            cv2.waitKey(1)
-            if len(mouse_pts) >= 4:
-                cv2.destroyWindow(
-                    "mark 4 points for caliberation - order -> top-left, top-right, bottom-right, bottom-left")
-                break
-            four_points = mouse_pts
-        pts = np.array([four_points[0], four_points[1], four_points[2], four_points[3]], np.int32)
-        cv2.polylines(cap, [pts.reshape((-1, 1, 2))], True, (255, 255, 0), 3)
-        matrix, max_x, max_y = ph.get_camera_perspective(cap, four_points[0:4])
+    while True:
+        cv2.imshow("mark 4 points for caliberation - order -> top-left, top-right, bottom-right, bottom-left", cap)
+        cv2.waitKey(1)
+        if len(mouse_pts) >= 4:
+            cv2.destroyWindow("mark 4 points for caliberation - order -> top-left, top-right, bottom-right, bottom-left")
+            break
+        four_points = mouse_pts
+    pts = np.array([four_points[0], four_points[1], four_points[2], four_points[3]], np.int32)
+    cv2.polylines(cap, [pts.reshape((-1, 1, 2))], True, (255, 255, 0), 3)
+    matrix, max_x, max_y = ph.get_camera_perspective(cap, four_points[0:4])
+    
 
-    # warped_pt = cv2.warpPerspective(cap, matrix, (max_x, max_y))
-    # Original_Homographed_dict = map_points_to_homography_coordinates(people_coordinates_list)
-
-    # return matrix, max_x, max_y
-    # returning name of pickle file or return "Original_Homographed_dict" dictionary
-    # return Original_Homographed_dict
+# =============================================================================
+#     warped_pt = cv2.warpPerspective(cap, matrix, (max_x, max_y))
+#     cv2.imshow("homographed image", warped_pt)
+#    
+# =============================================================================
