@@ -10,26 +10,45 @@ import cv2
 def HeatMapAuto(list1):
     # if there are no points return blank image
     if len(list1) < 3:
-        return np.zeros((400, 600, 3), np.uint8)
+        plt.xlim(0, 800)
+        plt.ylim(0, 600)
+        plt.xlabel('X_MESH')
+        plt.ylabel('Y_MESH')
+        fig2 = plt.gcf()
+
+        buf1 = io.BytesIO()
+        fig2.savefig(buf1, format="png", dpi=180)
+        buf1.seek(0)
+        img_arr1 = np.frombuffer(buf1.getvalue(), dtype=np.uint8)
+        buf1.close()
+
+        plt.clf()
+        plt.cla()
+        img1_np_array = cv2.imdecode(img_arr1, 1)
+        # img_np_array = cv2.cvtColor(img_np_array, cv2.COLOR_BGR2RGB)
+        # cv2.imshow("HeatMap", img_np_array)
+        # Here we return the Image as numpy array
+        return img1_np_array
+
 
     x, y = [coord[0] for coord in list1], [coord[1] for coord in list1]
     print(x)
     print(y)
     # call the kernel density estimator function
-    ax = sns.kdeplot(x, y, cmap="coolwarm", shade=True, shade_lowest=False, cbar=True)
+    ax = sns.kdeplot(x, y,cmap="coolwarm", shade=True, shade_lowest=False, cbar=False,gridsize=100)
     # the function has additional parameters you can play around with to fine-tune your heatmap, e.g.:
     # ax = sns.kdeplot(x, y, kernel="gau", bw = 25, cmap="Reds", n_levels = 50, shade=True, shade_lowest=False, gridsize=100)
 
     # plot your KDE
-    ax.set_frame_on(True)
+    #ax.set_frame_on(True)
 
-    plt.xlim(min(x) - 10, max(x) + 10)
-    plt.ylim(min(y) - 10, max(y) + 10)
-    plt.axis('on')
+    plt.xlim(0, 800)
+    plt.ylim(0, 600)
+    #plt.axis('on')
     plt.plot(x, y, 'ro')
     plt.xlabel('X_MESH')
     plt.ylabel('Y_MESH')
-    plt.pause(0.01)
+    #plt.pause(0.01)
     # plt.savefig('kde.png')
     # plt.show
     fig1 = plt.gcf()
@@ -43,6 +62,8 @@ def HeatMapAuto(list1):
     buf.seek(0)
     img_arr = np.frombuffer(buf.getvalue(), dtype=np.uint8)
     buf.close()
+    plt.clf()
+    plt.cla()
     img_np_array = cv2.imdecode(img_arr, 1)
     # img_np_array = cv2.cvtColor(img_np_array, cv2.COLOR_BGR2RGB)
     # cv2.imshow("HeatMap", img_np_array)
