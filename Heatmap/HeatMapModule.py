@@ -8,9 +8,8 @@ import cv2
 
 
 def HeatMapAuto(list1):
-    # Ashish Surve
     # if there are no points return blank image
-    if len(list1) == 0:
+    if len(list1) < 3:
         return np.zeros((400, 600, 3), np.uint8)
 
     x, y = [coord[0] for coord in list1], [coord[1] for coord in list1]
@@ -30,15 +29,15 @@ def HeatMapAuto(list1):
     plt.plot(x, y, 'ro')
     plt.xlabel('X_MESH')
     plt.ylabel('Y_MESH')
-    plt.pause(0.1)
+    plt.pause(0.01)
     # plt.savefig('kde.png')
     # plt.show
     fig1 = plt.gcf()
-    plt.show(block=False)
+    # plt.show(block=False)
     # plt.draw()
     # fig1.savefig('tessstttyyy.png', dpi=100)
-    plt.pause(0.75)
-    plt.close()
+    # plt.pause(0.02)
+    # plt.close()
     buf = io.BytesIO()
     fig1.savefig(buf, format="png", dpi=180)
     buf.seek(0)
@@ -46,37 +45,37 @@ def HeatMapAuto(list1):
     buf.close()
     img_np_array = cv2.imdecode(img_arr, 1)
     # img_np_array = cv2.cvtColor(img_np_array, cv2.COLOR_BGR2RGB)
-    cv2.imshow("LOLSS", img_np_array)
+    # cv2.imshow("HeatMap", img_np_array)
     # Here we return the Image as numpy array
     return img_np_array
 
 
-def get_img_from_fig(plot, dpi=180):
-    fig1 = plot.gcf()
-    plot.show(block=False)
-    # plt.draw()
-    # fig1.savefig('tessstttyyy.png', dpi=100)
-    plot.pause(0.75)
-    plot.close()
-    buf = io.BytesIO()
-    fig1.savefig(buf, format="png", dpi=dpi)
-    buf.seek(0)
-    img_arr = np.frombuffer(buf.getvalue(), dtype=np.uint8)
-    buf.close()
-    img_np_array = cv2.imdecode(img_arr, 1)
-    # img_np_array = cv2.cvtColor(img_np_array, cv2.COLOR_BGR2RGB)
-    cv2.imshow("LOLSS", img_np_array)
-    # Here we return the Image as numpy array
-    return img_np_array
-
-
-def numpy2pil(np_array: np.ndarray) -> Image:
-    """
-    Convert an HxWx3 numpy array into an RGB Image
-
-    """
-    img = Image.fromarray(np_array, 'RGB')
-    return img
+# def get_img_from_fig(plot, dpi=180):
+#     fig1 = plot.gcf()
+#     plot.show(block=False)
+#     # plt.draw()
+#     # fig1.savefig('tessstttyyy.png', dpi=100)
+#     plot.pause(0.75)
+#     plot.close()
+#     buf = io.BytesIO()
+#     fig1.savefig(buf, format="png", dpi=dpi)
+#     buf.seek(0)
+#     img_arr = np.frombuffer(buf.getvalue(), dtype=np.uint8)
+#     buf.close()
+#     img_np_array = cv2.imdecode(img_arr, 1)
+#     # img_np_array = cv2.cvtColor(img_np_array, cv2.COLOR_BGR2RGB)
+#     cv2.imshow("LOLSS", img_np_array)
+#     # Here we return the Image as numpy array
+#     return img_np_array
+#
+#
+# def numpy2pil(np_array: np.ndarray) -> Image:
+#     """
+#     Convert an HxWx3 numpy array into an RGB Image
+#
+#     """
+#     img = Image.fromarray(np_array, 'RGB')
+#     return img
 
 # For Testing this module
 # load the coordinates file
