@@ -18,7 +18,7 @@ def map_points_to_homography_coordinates(people_coordinates_list):
         yworld = int(worldpoint[1] / scalar)
 
         # store the pair in local dictionary for every function call
-        Original_Homographed_dict[point] = (xworld, yworld)
+        Original_Homographed_dict[(xworld,yworld)] = point
 
     save_original_to_homgraphed_mapping(Original_Homographed_dict)
 

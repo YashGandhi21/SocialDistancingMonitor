@@ -16,7 +16,7 @@ import numpy as np
 
 def main():
     # change this hardcoded later
-    source = "video.mp4"
+    source = "video1.mp4"
 
     # Demo on/off switch
     demo = True
@@ -49,7 +49,7 @@ def main():
             """
             # TODO: show demo for 20 different frames.
             if homograph_calibrate:
-                hg.Funct_Perform_Homography(frame)
+                hg.caliberate_camera(frame)
                 mapped_points_dict = hg.map_points_to_homography_coordinates(points)
                 homograph_calibrate = False
             else:
@@ -70,8 +70,8 @@ def main():
             # TODO: exclude until stable
             # TODO: pass dictionary
             # TODO Axis OFF
-            heatMap_image = hm.HeatMapAuto(points)
-            cv2.imshow("HeatMap", heatMap_image)
+            #heatMap_image = hm.HeatMapAuto(points)
+            #cv2.imshow("HeatMap", heatMap_image)
 
             # draw bounding boxes
             frame = pd.draw_bbox(frame, bbox, label, conf, write_conf=True, colors=(0, 255, 0))
@@ -85,6 +85,8 @@ def main():
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
+            
+            
     except Exception:
         print("Exception Occured")
     finally:

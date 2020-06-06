@@ -1,5 +1,5 @@
 import cv2
-
+import os
 import numpy as np
 import pickle
 
@@ -38,7 +38,17 @@ def get_camera_perspective(img, inner_points):
 
 
 def save_homography_matrix(matrix, max_x, max_y):
-    # saving the homography matrix in pickle file
+        
+    if(os.path.isfile("Homography matrix")):
+        #print("checking if file exists")
+        os.remove("Homography matrix")
+        #print("file deleted")
+    if(os.path.isfile("Image Size")):
+        #print("checking if file exists")
+        os.remove("Image Size")
+        #print("file deleted")
+            
+     
     dbfile = open("Homography matrix", "ab")
     pickle.dump(matrix, dbfile)
     dbfile.close()
