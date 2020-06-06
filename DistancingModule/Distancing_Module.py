@@ -38,7 +38,7 @@ def social_distancing(img, coordinates):
                 continue
             distance = distance_between_dots(x1, y1, x2, y2)
 
-            if distance < 15:
+            if distance < 150:
                 img = draw_dots(img, x1, y1, "red")
                 img = draw_dots(img, x2, y2, "red")
                 red_dots.append((x1, y1))
