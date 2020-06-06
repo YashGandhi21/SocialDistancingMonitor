@@ -11,6 +11,8 @@ import time
 from PIL import Image
 import numpy as np
 
+# TODO : function call to return frame1 and frame2 to flask
+
 
 def main():
     # change this hardcoded later
@@ -45,6 +47,7 @@ def main():
             Funct_Perform_homography is for calibrating homograph by choosing points
             mapped_points_dict is to get mapped points
             """
+            # TODO: show demo for 20 different frames.
             if homograph_calibrate:
                 hg.Funct_Perform_Homography(frame)
                 mapped_points_dict = hg.map_points_to_homography_coordinates(points)
