@@ -69,9 +69,9 @@ def integrated_social_distancing(frame):
     # TODO: exclude until stable
     # TODO Axis OFF.Done.
 
-    heatMap_image = hm.HeatMapAuto(mapped_points_dict.keys(), mapped_width, mapped_height)
+    # heatMap_image = hm.HeatMapAuto(mapped_points_dict.keys(), mapped_width, mapped_height)
     # here 800x600 is the image window
-    imS = cv2.resize(heatMap_image, (800, 600))
+    # imS = cv2.resize(heatMap_image, (800, 600))
     # cv2.imshow("HeatMap", imS)
 
     # draw bounding boxes

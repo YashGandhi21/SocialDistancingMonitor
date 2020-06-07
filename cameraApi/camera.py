@@ -15,9 +15,9 @@ def startWebCamera_Stream():
 def openVideoFile_Stream():
     print("open file stream")
     if platform.system()=='Windows':
-        video_capture = cv2.VideoCapture('videos\\video6.mp4')
+        video_capture = cv2.VideoCapture('videos\\video.mp4')
     elif platform.system()=='Linux':
-        video_capture = cv2.VideoCapture('videos/video6.mp4')
+        video_capture = cv2.VideoCapture('videos/video.mp4')
     #video_capture.set(cv2.CAP_PROP_FPS, 10)
     #print("Changes applied are res = ",video_capture.set(cv2.CAP_PROP_FPS, 30))
     return video_capture
