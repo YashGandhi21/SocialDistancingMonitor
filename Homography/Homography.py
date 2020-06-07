@@ -17,7 +17,7 @@ mouse_pts = []
 def caliberate_camera(input_image):
     # In[211]:
     cap = input_image
-    print(cap.shape)
+    #print(cap.shape)
 
     def get_mouse_points(event, x, y, flags, param):
         # Used to mark 4 points on the frame zero of the video that will be warped

@@ -59,10 +59,10 @@ def main():
 
             # call to distancing module
             # TODO : return frames. Done.
-            # TODO : Threshold add to function
-            # TODO : Keep width and height same as input image
+            # TODO : Threshold add to function. Done
+            # TODO : Keep width and height same as input image. Done
             #          pass it to module
-            top_view_frame, _ = dm.red_coordinates_from_coordinates(mapped_points_dict)
+            top_view_frame, _ = dm.fetchRedCoordinatesFromCoordinates(mapped_points_dict, 150, 800, 600)
             # top_view_frame = cv2.resize(top_view_frame, (frame.shape[1], frame.shape[0]))
             cv2.imshow("TopView", top_view_frame)
 
@@ -72,8 +72,10 @@ def main():
             # TODO: exclude until stable
             # TODO: pass dictionary
             # TODO Axis OFF
-            heatMap_image = hm.HeatMapAuto(points)
-            cv2.imshow("HeatMap", heatMap_image)
+            heatMap_image = hm.HeatMapAuto(mapped_points_dict.keys())
+            #here 800x600 is the image window
+            imS=cv2.resize(heatMap_image,(800,600))
+            cv2.imshow("HeatMap", imS)
 
             # draw bounding boxes
             frame = pd.draw_bbox(frame, bbox, label, conf, write_conf=True, colors=(0, 255, 0))

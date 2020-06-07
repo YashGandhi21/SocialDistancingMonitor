@@ -42,8 +42,8 @@ def HeatMapAuto(list1):
     # plot your KDE
     #ax.set_frame_on(True)
 
-    plt.xlim(0, 800)
-    plt.ylim(0, 600)
+    plt.xlim(0, 1000)
+    plt.ylim(0, 1000)
     #plt.axis('on')
     plt.plot(x, y, 'ro')
     plt.xlabel('X_MESH')
