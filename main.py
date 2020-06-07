@@ -68,11 +68,13 @@ def main():
 
             # Heat-Map Module calls
             # TODO: Make it work properly on BGR format.
-            # TODO: not working for empty list.
+            # TODO: not working for empty list.Done.
             # TODO: exclude until stable
-            # TODO: pass dictionary
-            # TODO Axis OFF
-            heatMap_image = hm.HeatMapAuto(mapped_points_dict.keys())
+            # TODO Axis OFF.Done.
+            #max_x and max_y are maximum width and height respectively.
+            max_x=1000
+            max_y=1000
+            heatMap_image = hm.HeatMapAuto(mapped_points_dict.keys(),max_x,max_y)
             #here 800x600 is the image window
             imS=cv2.resize(heatMap_image,(800,600))
             cv2.imshow("HeatMap", imS)

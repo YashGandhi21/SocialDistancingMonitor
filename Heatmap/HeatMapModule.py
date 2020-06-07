@@ -7,11 +7,11 @@ from PIL import Image
 import cv2
 
 
-def HeatMapAuto(list1):
+def HeatMapAuto(list1,max_x,max_y):
     # if there are no points return blank image
     if len(list1) < 3:
-        plt.xlim(0, 800)
-        plt.ylim(0, 600)
+        plt.xlim(0, max_x)
+        plt.ylim(0, max_y)
         plt.xlabel('X_MESH')
         plt.ylabel('Y_MESH')
         fig2 = plt.gcf()
