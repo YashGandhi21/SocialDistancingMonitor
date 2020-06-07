@@ -2,16 +2,13 @@ import cv2
 import numpy as np
 import math
 
-width = 1360
-height = 720
 
-
-def distance_between_dots(x1, y1, x2, y2):
+def distanceBetweenDots(x1, y1, x2, y2):
     dist = math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
     return dist
 
 
-def draw_dots(img, x, y, colour):
+def drawDots(img, x, y, colour):
     center_coordinates = (x, y)  # Center coordinates
     radius = 4  # Radius of circle
     if colour == "red":
@@ -29,18 +26,18 @@ def draw_dots(img, x, y, colour):
     return img
 
 
-def social_distancing(img, coordinates):
+def monitorSocialDistancing(img, coordinates, minTreshold):
     red_dots = []
     for x1, y1 in coordinates:
         check_colour = 0
         for x2, y2 in coordinates:
             if x1 == x2 and y1 == y2:
                 continue
-            distance = distance_between_dots(x1, y1, x2, y2)
+            distance = distanceBetweenDots(x1, y1, x2, y2)
 
-            if distance < 75:
-                img = draw_dots(img, x1, y1, "red")
-                img = draw_dots(img, x2, y2, "red")
+            if distance < minTreshold:
+                img = drawDots(img, x1, y1, "red")
+                img = drawDots(img, x2, y2, "red")
                 red_dots.append((x1, y1))
                 red_dots.append((x2, y2))
 
@@ -50,13 +47,13 @@ def social_distancing(img, coordinates):
     return img, red_dots
 
 
-def plot_points(img, coordinates):
+def plotPoints(img, coordinates):
     for x, y in coordinates:
-        img = draw_dots(img, x, y, "white")
+        img = drawDots(img, x, y, "white")
     return img
 
 
-def original_coordinates_of_red_dots(coordinates, red_dots):
+def originalCoordinatesOfRedDots(coordinates, red_dots):
     red_coordinates = {}
     for new_coordinate, old_coordiante in coordinates.items():
         for red_dot in red_dots:
@@ -66,16 +63,16 @@ def original_coordinates_of_red_dots(coordinates, red_dots):
     return red_coordinates
 
 
-def red_coordinates_from_coordinates(coordinates):
+def fetchRedCoordinatesFromCoordinates(coordinates, minTreshold, widthOfFrame, heightOfFrame):
     # Make empty black image of size width and height
-    img = np.zeros((height, width, 3), np.uint8)
+    img = np.zeros((heightOfFrame, widthOfFrame, 3), np.uint8)
 
     new_coordinates = list(coordinates.keys())
 
-    img = plot_points(img, new_coordinates)
+    img = plotPoints(img, new_coordinates)
 
-    img, red_dots = social_distancing(img, new_coordinates)
+    img, red_dots = monitorSocialDistancing(img, new_coordinates, minTreshold)
 
-    red_coordinates = original_coordinates_of_red_dots(coordinates, red_dots)
+    red_coordinates = originalCoordinatesOfRedDots(coordinates, red_dots)
 
     return img, red_coordinates

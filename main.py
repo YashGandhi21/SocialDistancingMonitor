@@ -59,10 +59,10 @@ def main():
 
             # call to distancing module
             # TODO : return frames. Done.
-            # TODO : Threshold add to function
-            # TODO : Keep width and height same as input image
+            # TODO : Threshold add to function. Done
+            # TODO : Keep width and height same as input image. Done
             #          pass it to module
-            top_view_frame, _ = dm.red_coordinates_from_coordinates(mapped_points_dict)
+            top_view_frame, _ = dm.fetchRedCoordinatesFromCoordinates(mapped_points_dict, 150, 800, 600)
             # top_view_frame = cv2.resize(top_view_frame, (frame.shape[1], frame.shape[0]))
             cv2.imshow("TopView", top_view_frame)
 
