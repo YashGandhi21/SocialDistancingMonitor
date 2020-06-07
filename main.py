@@ -72,8 +72,10 @@ def main():
             # TODO: exclude until stable
             # TODO: pass dictionary
             # TODO Axis OFF
-            heatMap_image = hm.HeatMapAuto(points)
-            cv2.imshow("HeatMap", heatMap_image)
+            heatMap_image = hm.HeatMapAuto(mapped_points_dict.keys())
+            #here 800x600 is the image window
+            imS=cv2.resize(heatMap_image,(800,600))
+            cv2.imshow("HeatMap", imS)
 
             # draw bounding boxes
             frame = pd.draw_bbox(frame, bbox, label, conf, write_conf=True, colors=(0, 255, 0))
