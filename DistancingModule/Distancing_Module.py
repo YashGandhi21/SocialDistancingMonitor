@@ -2,8 +2,8 @@ import cv2
 import numpy as np
 import math
 
-width = 800
-height = 600
+width = 1360
+height = 720
 
 
 def distance_between_dots(x1, y1, x2, y2):
@@ -38,7 +38,7 @@ def social_distancing(img, coordinates):
                 continue
             distance = distance_between_dots(x1, y1, x2, y2)
 
-            if distance < 150:
+            if distance < 75:
                 img = draw_dots(img, x1, y1, "red")
                 img = draw_dots(img, x2, y2, "red")
                 red_dots.append((x1, y1))

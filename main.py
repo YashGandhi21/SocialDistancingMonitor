@@ -6,6 +6,7 @@ import PersonDetector as pd
 import Homography as hg
 import DistancingModule as dm
 import Heatmap as hm
+
 import cv2
 import time
 from PIL import Image
@@ -29,7 +30,8 @@ def main():
             start_time = time.time()
             # read frame from webcam/video
             status, frame = video.read()
-
+            new_frame = cv2.resize(frame, (800, 600))
+            frame=new_frame
             if not status:
                 break
 
@@ -70,8 +72,8 @@ def main():
             # TODO: exclude until stable
             # TODO: pass dictionary
             # TODO Axis OFF
-            #heatMap_image = hm.HeatMapAuto(points)
-            #cv2.imshow("HeatMap", heatMap_image)
+            heatMap_image = hm.HeatMapAuto(points)
+            cv2.imshow("HeatMap", heatMap_image)
 
             # draw bounding boxes
             frame = pd.draw_bbox(frame, bbox, label, conf, write_conf=True, colors=(0, 255, 0))
