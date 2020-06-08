@@ -16,7 +16,7 @@ Algorithm Ends.
 
 Issues to resolve, 
 
-1) in cameraApi: path for linux environment.
+1) in cameraApi: path for linux environment. (COMPLETED)
                 if platform.system()=='Windows':
                     dest = \\.join([target,myfile])
                 elif platform.system()=='Linux':
@@ -45,6 +45,7 @@ import time
 import cv2
 import requests
 import urllib
+from main import integrated_social_distancing
 
 #Configuring flask
 app = Flask(__name__)
@@ -84,6 +85,9 @@ def stopCam():
     #Resetting the double frame (Workaround)
     global globalFrame
     globalFrame = None
+
+    global heatMapFrame
+    heatMapFrame = None
 
     #used to break the double frame loop
     global StopAllFrames
@@ -397,6 +401,132 @@ def pauseSecond():
     res1.headers['Pragma'] = 'no-cache'
 
     return res1
+
+@app.route('/pausebirdseye')
+def pausebirdseye():
+    print("paused birdseye frame")
+    global heatMapFrame
+    pausedFrame = cv2.imencode('.jpg', heatMapFrame)[1].tobytes()
+
+    res1 = make_response(pausedFrame)
+    res1.mimetype= "image/jpg; boundary=frame"
+
+    #No cache to store other wise image will not change.
+    res1.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    res1.headers['Pragma'] = 'no-cache'
+
+    return res1
+
+
+
+#FOR SAMPLE VIDEO
+
+@app.route('/sample')
+def sample():
+    global StopAllFrames
+    StopAllFrames = False
+    return render_template('sample.html')
+
+def generatefirst_sampleframe():
+    global video_capture
+    print("inside call start cam")
+    #video_capture = startWebCamera_Stream()
+    video_capture = openVideoFile_Stream()
+    while True:
+        #frame = webCamera_Stream(video_capture)
+
+        #frame = GetOnlyCamFrame(video_capture) # HERE WE CAN PROCESS FRAME
+        ret, frame = video_capture.read()
+
+        if frame is None or not ret:
+            print("found frame is none")
+            break        
+        
+        global globalFrame
+        global heatMapFrame
+
+        globalFrame,heatMapFrame =  integrated_social_distancing(frame)
+
+        
+        #frame = globalFrame
+
+        #global heatMapFrame
+        #heatMapFrame = cv2.imencode('.jpg', frame)[1].tobytes()
+
+
+        frame = cv2.imencode('.jpg', globalFrame)[1].tobytes()
+        
+        yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+
+
+def generateSecond_sampleframe():
+    print("i am inside Sample frame")
+    global globalFrame
+    global StopAllFrames
+    global heatMapFrame
+    #count = 0
+    #time.sleep(100)
+    #better use a loop than time, coz it depends upon time to load
+    while True:
+        if globalFrame is None and StopAllFrames == False:
+            #count = count + 1
+            #print("NO second frame count= ",count)
+            continue
+        
+        if StopAllFrames == True:
+            print("Double Sample Frame Loop Broken")
+            break
+
+        if heatMapFrame is None:
+            print("Birds eye view found null")
+            continue
+
+        FaceFrame = None
+
+        #FaceFrame , count = facedetecFromFrame(globalFrame)
+
+        #global jsonData
+        #jsonData.update({"count":count})
+
+        #global globalFrame
+
+        #FaceFrame = globalFrame
+
+        #heatMapFrame = cv2.imencode('.jpg', heatMapFrame)[1].tobytes()
+
+        #heatMapFrame = FaceFrame
+
+
+        FaceFrame = cv2.imencode('.jpg', heatMapFrame)[1].tobytes()
+
+        yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + FaceFrame + b'\r\n')
+
+
+'''
+@app.route('/first') and @app.route('/second') called one after another by html page...(depends)
+
+first and second these driver functions call their respective generate frames
+
+'''
+
+
+@app.route('/firstsample')
+def firstsample():
+    print("inside first feed")
+    #here response will be send frame by frame (called by html page)
+    return Response(generatefirst_sampleframe(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+
+@app.route('/secondsample')
+def secondsample():
+    print("received call for double frame")
+    #global globalFaceFrame
+    return Response(generateSecond_sampleframe(),mimetype='multipart/x-mixed-replace; boundary=frame')
+
+
+
+
+
 
 
 # FOR IP WEB CAMERA ACCESS

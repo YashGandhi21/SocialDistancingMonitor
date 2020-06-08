@@ -7,11 +7,11 @@ from PIL import Image
 import cv2
 
 
-def HeatMapAuto(list1):
+def HeatMapAuto(list1,max_x,max_y):
     # if there are no points return blank image
     if len(list1) < 3:
-        plt.xlim(0, 800)
-        plt.ylim(0, 600)
+        plt.xlim(0, max_x)
+        plt.ylim(0, max_y)
         plt.xlabel('X_MESH')
         plt.ylabel('Y_MESH')
         fig2 = plt.gcf()
@@ -32,8 +32,8 @@ def HeatMapAuto(list1):
 
 
     x, y = [coord[0] for coord in list1], [coord[1] for coord in list1]
-    print(x)
-    print(y)
+    #print(x)
+    #print(y)
     # call the kernel density estimator function
     ax = sns.kdeplot(x, y,cmap="coolwarm", shade=True, shade_lowest=False, cbar=False,gridsize=100)
     # the function has additional parameters you can play around with to fine-tune your heatmap, e.g.:
@@ -42,8 +42,8 @@ def HeatMapAuto(list1):
     # plot your KDE
     #ax.set_frame_on(True)
 
-    plt.xlim(0, 1000)
-    plt.ylim(0, 1000)
+    plt.xlim(0, max_x)
+    plt.ylim(0, max_y)
     #plt.axis('on')
     plt.plot(x, y, 'ro')
     plt.xlabel('X_MESH')

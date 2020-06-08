@@ -4,3 +4,4 @@ __pycache__
 PersonDetector/__pycache__
 venv/
 cameraApi/__pycache__
+PersonDetector/yolov3.weights
