@@ -1,11 +1,11 @@
 import numpy as np
 import pickle
 
-matrix = pickle.load(open("Homography matrix", "rb"))
+# matrix = pickle.load(open("Homography matrix", "rb"))
 
 #Always call this function for this file
 def map_points_to_homography_coordinates(people_coordinates_list):
-    # matrix = pickle.load(open("Homography matrix", "rb"))
+    matrix = pickle.load(open("Homography matrix", "rb"))
     
     Original_Homographed_dict = {}
     for point in people_coordinates_list:

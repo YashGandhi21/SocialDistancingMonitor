@@ -53,11 +53,11 @@ def integrated_social_distancing(frame):
     else:
         mapped_points_dict = hg.map_points_to_homography_coordinates(points)
 
-    # find max height, width in homograph plane
+    # find max height, width in homograph plane11
     t_dict = list(hg.map_points_to_homography_coordinates([(width, height)]))
     # add 110 % padding
-    mapped_width = int(1.1 * t_dict[0][0])
-    mapped_height = int(1.1 * t_dict[0][1])
+    mapped_width = int(1.15 * t_dict[0][0])
+    mapped_height = int(1.15 * t_dict[0][1])
 
     # call to distancing module
     # TODO : return frames. Done.
@@ -74,9 +74,9 @@ def integrated_social_distancing(frame):
     # TODO: exclude until stable
     # TODO Axis OFF.Done.
 
-    # heatMap_image = hm.HeatMapAuto(mapped_points_dict.keys(), mapped_width, mapped_height)
+    heatMap_image = hm.HeatMapAuto(mapped_points_dict.keys(), mapped_width, mapped_height)
     # here 800x600 is the image window
-    # imS = cv2.resize(heatMap_image, (800, 600))
+    imS = cv2.resize(heatMap_image, (800, 600))
     # cv2.imshow("HeatMap", imS)
 
     # draw bounding boxes
@@ -103,7 +103,8 @@ def integrated_social_distancing(frame):
     # cv2.putText(frame, "FPS: " + str(round(1.0 / (time.time() - start_time), 2)), (10, 50),
     #            cv2.FONT_HERSHEY_PLAIN, 1, (0, 255, 0), 3)
 
-    return frame, top_view_frame
+    frame = np.concatenate((frame, cv2.resize(heatMap_image, (width, height))), axis=1)
+    return frame, top_view_frame,
 
 
 

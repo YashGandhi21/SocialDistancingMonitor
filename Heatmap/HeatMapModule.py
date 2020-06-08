@@ -12,8 +12,8 @@ def HeatMapAuto(list1,max_x,max_y):
     if len(list1) < 3:
         plt.xlim(0, max_x)
         plt.ylim(0, max_y)
-        plt.xlabel('X_MESH')
-        plt.ylabel('Y_MESH')
+        # plt.xlabel('X_MESH')
+        # plt.ylabel('Y_MESH')
         fig2 = plt.gcf()
 
         buf1 = io.BytesIO()
@@ -46,8 +46,8 @@ def HeatMapAuto(list1,max_x,max_y):
     plt.ylim(0, max_y)
     #plt.axis('on')
     plt.plot(x, y, 'ro')
-    plt.xlabel('X_MESH')
-    plt.ylabel('Y_MESH')
+    # plt.xlabel('X_MESH')
+    # plt.ylabel('Y_MESH')
     #plt.pause(0.01)
     # plt.savefig('kde.png')
     # plt.show
