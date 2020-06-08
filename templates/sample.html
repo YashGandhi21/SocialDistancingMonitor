@@ -25,26 +25,26 @@
         
         <div class="row">
             
-            <div class="col">
+            <div class="col-sm-8">
                 <!-- <div class="col-sm"> -->
                 <!-- <h3 class="mt-5">Live Demo Streaming Demonstration</h3> -->
                 <!-- <img src="{{ url_for('static',filename='logo.png') }}" width="50%"> -->
-                <img src="{{ url_for('firstsample') }}" width="80%">
+                <img src="{{ url_for('firstsample') }}" width="95%" height="100%">
             </div>
-            <div class="col">
+            <div class="col-sm-4">
                 
                 <!-- <h3 class="mt-5">Second File live streaming Demo</h3> -->
                 <!-- <img src="{{ url_for('static',filename='logo.png') }}" width="50%"> -->
-                <img src="{{ url_for('secondsample') }}" width="80%">
+                <img src="{{ url_for('secondsample') }}" width="95%" height="100%">
             </div>
         </div>
         <br>
         <br>
         <div class="row">
-            <div class="col">
-                Person Detection is applied here.
+            <div class="col-sm-8">
+                Person Detection and HeatMap is Shown here
             </div>
-            <div class="col">
+            <div class="col-sm-4">
                 <!-- Faces Found are = <p id="count" style="display:inline" >temp text</p> -->
                 Birds Eye View is shown above
             </div>
@@ -55,18 +55,12 @@
         <a href="{{ url_for('stopCam') }}">StopCam</a>
         <br>
         <input type="button" id="btn" value="Capture" />
-        <input type="button" id="del" value="Delete"/>
+        <input type="button" id="del" value="Clear"/>
         <br>
+        
+        <div id="captures"></div>
+        
 
-        <div class="row">
-            <div class="col" id="firstImage">
-                
-            </div>
-            <div class="col" id="secondImage">
-                
-            </div>
-            <br>
-        </div>
         <br>
         <div class="row" id="lastrow">
             <div class="col">
@@ -85,30 +79,51 @@
 
     document.getElementById('btn').onclick = function() {
         var mynewline = document.createElement('br')
+        var firstRow = document.createElement('div')
+        firstRow.setAttribute("class","row");
+        //document.getElementById("captures").appendChild(firstRow)
+
         var img1 = new Image();
         src1 = "{{ url_for('pauseFirst') }}"
                 
                 //img = document.createElement('img');
         img1.src = src1;
         img1.id = "pauseFirst"
-        img1.setAttribute("class","rounded float-right")
+        img1.setAttribute("class","rounded float-right col-sm-8")
         //img1.width = "100%"
         img1.setAttribute("width","100%")
+        img1.setAttribute("height","100%")
         //document.body.appendChild(img1);
-        document.getElementById("firstImage").appendChild(img1)
+
+        // document.getElementById("captures").appendChild(firstRow)
+        firstRow.appendChild(img1)
+
+        //document.getElementById("firstImage").appendChild(img1)
         // document.getElementById("firstImage").appendChild(document.createElement('br'))
         // document.getElementById("firstImage").appendChild(document.createElement('br'))
         // document.getElementById("firstImage").appendChild(document.createElement('br'))
         // document.getElementById("firstImage").appendChild(document.createElement('br'))
         // document.getElementById("firstImage").appendChild(document.createElement('br'))
+
         var img2 = new Image();
         src2 = "{{ url_for('pausebirdseye') }}"
         img2.src = src2;
         img2.id = "pauseSecond"
-        img2.setAttribute("class","rounded float-left")
+        img2.setAttribute("class","rounded float-left col-sm-4")
         //img2.width = "100%"
         img2.setAttribute("width","100%")
-        document.getElementById("secondImage").appendChild(img2)
+        img2.setAttribute("height","100%")
+        
+        firstRow.appendChild(img2)
+        //document.getElementById("secondImage").appendChild(img2)
+        firstRow.appendChild(mynewline.cloneNode())
+        //firstRow.appendChild(document.createElement('br'))
+        //firstRow.appendChild(document.createElement('br'))
+
+        firstRow.appendChild(document.createTextNode('l'))
+
+        document.getElementById("captures").appendChild(firstRow)
+
         // document.getElementById("secondImage").appendChild(document.createElement('br'))
         // document.getElementById("secondImage").appendChild(document.createElement('br'))
         // document.getElementById("secondImage").appendChild(document.createElement('br'))
@@ -141,12 +156,20 @@
         }
 
     document.getElementById("del").onclick = function() {
-        var img1 = document.getElementById('pauseFirst')
-        img1.parentNode.removeChild(img1);
-        var img2 = document.getElementById('pauseSecond')
-        img2.parentNode.removeChild(img2);
-        document.getElementById("counted").innerHTML = "";
-        document.getElementById("localText").innerHTML = "";
+        // var img1 = document.getElementById('pauseFirst')
+        // img1.parentNode.removeChild(img1);
+        // var img2 = document.getElementById('pauseSecond')
+        // img2.parentNode.removeChild(img2);
+        // document.getElementById("counted").innerHTML = "";
+        // document.getElementById("localText").innerHTML = "";
+        var firstrow = document.getElementById('captures')
+        //firstrow.parentNode.removeChild(firstrow)
+        //firstrow.childNodes.forEach(n=> {console.log("attempt to remove "+ n); n.remove()})
+        //firstrow.childNodes.forEach(n=> {console.log("attempt to remove "+ n);})
+        console.log("attempt to remove "+ firstrow.childNodes[0])
+        firstrow.removeChild(firstrow.childNodes[0])
+        //clist.remove
+        
     }
     
 
