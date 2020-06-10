@@ -17,7 +17,7 @@
                 <h3 >Live Mobile Demo Streaming Demonstration</h3>
             </div>
             <div class="col">
-                <h3 >Heat map will be Shown Here</h3>
+                <h3 >Birds Eye View is Shown Here</h3>
             </div>
         </div>
         <br>
@@ -25,49 +25,44 @@
         
         <div class="row">
             
-            <div class="col">
+            <div class="col-sm-8">
                 <!-- <div class="col-sm"> -->
                 <!-- <h3 class="mt-5">Live Demo Streaming Demonstration</h3> -->
                 <!-- <img src="{{ url_for('static',filename='logo.png') }}" width="50%"> -->
-                <img src="{{ url_for('ipstream') }}" width="80%">
+                <img src="{{ url_for('ipstream') }}" width="95%" height="100%">
             </div>
-            <div class="col">
+            <div class="col-sm-4">
                 
                 <!-- <h3 class="mt-5">Second File live streaming Demo</h3> -->
                 <!-- <img src="{{ url_for('static',filename='logo.png') }}" width="50%"> -->
-                <img src="{{ url_for('second') }}" width="80%">
+                <img src="{{ url_for('secondsample') }}" width="95%" height="100%">
             </div>
         </div>
         <br>
         <br>
         <div class="row">
-            <div class="col">
-                No Face Detection applied here.
+            <div class="col-sm-8">
+                Person Detection and HeatMap is Shown here
             </div>
-            <div class="col">
-                Faces Found are = <p id="count" style="display:inline" >temp text</p>
+            <div class="col-sm-4">
+                <!-- Faces Found are = <p id="count" style="display:inline" >temp text</p> -->
+                Birds Eye View is shown above
             </div>
         </div>
 
         <br>
         <!-- <a href="{{ url_for('stopCam') }}">StopCam</a> -->
-        <a href="{{ url_for('stopCam') }}">StopCam</a>
+        <a href="{{ url_for('index') }}">Home</a>
         <br>
         <input type="button" id="btn" value="Capture" />
-        <input type="button" id="del" value="Delete"/>
+        <input type="button" id="del" value="Clear"/>
         <br>
+        
+        <div id="captures"></div>
+        
 
-        <div class="row">
-            <div class="col" id="firstImage">
-                
-            </div>
-            <div class="col" id="secondImage">
-                
-            </div>
-            <br>
-        </div>
         <br>
-        <div class="row">
+        <div class="row" id="lastrow">
             <div class="col">
                 <p id="localText" style="display:inline" ></p>
             </div>
@@ -83,42 +78,75 @@
 //var gblCount = 0
 
     document.getElementById('btn').onclick = function() {
+        var mynewline = document.createElement('br')
+        var firstRow = document.createElement('div')
+        firstRow.setAttribute("class","row");
+        //document.getElementById("captures").appendChild(firstRow)
+
         var img1 = new Image();
         src1 = "{{ url_for('pauseFirst') }}"
                 
                 //img = document.createElement('img');
         img1.src = src1;
         img1.id = "pauseFirst"
-        img1.setAttribute("class","rounded float-right")
+        img1.setAttribute("class","rounded float-right col-sm-8")
         //img1.width = "100%"
         img1.setAttribute("width","100%")
+        img1.setAttribute("height","100%")
         //document.body.appendChild(img1);
-        document.getElementById("firstImage").appendChild(img1)
+
+        // document.getElementById("captures").appendChild(firstRow)
+        firstRow.appendChild(img1)
+
+        //document.getElementById("firstImage").appendChild(img1)
+        // document.getElementById("firstImage").appendChild(document.createElement('br'))
+        // document.getElementById("firstImage").appendChild(document.createElement('br'))
+        // document.getElementById("firstImage").appendChild(document.createElement('br'))
+        // document.getElementById("firstImage").appendChild(document.createElement('br'))
+        // document.getElementById("firstImage").appendChild(document.createElement('br'))
 
         var img2 = new Image();
-        src2 = "{{ url_for('pauseSecond') }}"
+        src2 = "{{ url_for('pausebirdseye') }}"
         img2.src = src2;
         img2.id = "pauseSecond"
-        img2.setAttribute("class","rounded float-left")
+        img2.setAttribute("class","rounded float-left col-sm-4")
         //img2.width = "100%"
         img2.setAttribute("width","100%")
-        document.getElementById("secondImage").appendChild(img2)
+        img2.setAttribute("height","100%")
+        
+        firstRow.appendChild(img2)
+        //document.getElementById("secondImage").appendChild(img2)
+        firstRow.appendChild(mynewline.cloneNode())
+        //firstRow.appendChild(document.createElement('br'))
+        //firstRow.appendChild(document.createElement('br'))
+
+        firstRow.appendChild(document.createTextNode('l'))
+
+        document.getElementById("captures").appendChild(firstRow)
+
+        // document.getElementById("secondImage").appendChild(document.createElement('br'))
+        // document.getElementById("secondImage").appendChild(document.createElement('br'))
+        // document.getElementById("secondImage").appendChild(document.createElement('br'))
+        // document.getElementById("secondImage").appendChild(document.createElement('br'))
+        // document.getElementById("secondImage").appendChild(document.createElement('br'))
         //document.body.appendChild(img2);
 
         //for adding text
 
-    fetch("{{ url_for('stream_json') }}").then(response => {
+//     fetch("{{ url_for('stream_json') }}").then(response => {
 
-        response.text().then(t=> { 
-                obj=JSON.parse(t); 
-                t = obj["count"]; 
-        document.getElementById("counted").innerHTML = "Faces found in above frame is = "+ t;
-        document.getElementById("localText").innerHTML = "No Face Detection applied here";
-            //gblCount = t
-            })
+//         response.text().then(t=> { 
+//                 obj=JSON.parse(t); 
+//                 t = obj["count"];
+         
+//         //document.getElementById("counted").innerHTML = "Faces found in above frame is = "+ t;
+//         //document.getElementById("localText").innerHTML = "No Face Detection applied here";
+//         //document.getElementById("lastrow").appendChild()
+//             //gblCount = t
+//             })
      
 
- });
+//  });
 
                 
         console.log("2 image added")
@@ -128,34 +156,42 @@
         }
 
     document.getElementById("del").onclick = function() {
-        var img1 = document.getElementById('pauseFirst')
-        img1.parentNode.removeChild(img1);
-        var img2 = document.getElementById('pauseSecond')
-        img2.parentNode.removeChild(img2);
-        document.getElementById("counted").innerHTML = "";
-        document.getElementById("localText").innerHTML = "";
+        // var img1 = document.getElementById('pauseFirst')
+        // img1.parentNode.removeChild(img1);
+        // var img2 = document.getElementById('pauseSecond')
+        // img2.parentNode.removeChild(img2);
+        // document.getElementById("counted").innerHTML = "";
+        // document.getElementById("localText").innerHTML = "";
+        var firstrow = document.getElementById('captures')
+        //firstrow.parentNode.removeChild(firstrow)
+        //firstrow.childNodes.forEach(n=> {console.log("attempt to remove "+ n); n.remove()})
+        //firstrow.childNodes.forEach(n=> {console.log("attempt to remove "+ n);})
+        console.log("attempt to remove "+ firstrow.childNodes[0])
+        firstrow.removeChild(firstrow.childNodes[0])
+        //clist.remove
+        
     }
     
 
 //This is for getting the JSON data
 
-var count = document.getElementById("count");
-setInterval(() => {
-fetch("{{ url_for('stream_json') }}").then(
- response => {
+// var count = document.getElementById("count");
+// setInterval(() => {
+// fetch("{{ url_for('stream_json') }}").then(
+//  response => {
      
      
-     response.text().then(t=> { 
-        obj=JSON.parse(t); 
-        t = obj["count"]; 
-        count.innerHTML = t;
-        //gblCount = t
-        })
+//      response.text().then(t=> { 
+//         obj=JSON.parse(t); 
+//         t = obj["count"]; 
+//         count.innerHTML = t;
+//         //gblCount = t
+//         })
      
 
- });
+//  });
  
-},500);
+// },500);
 
 </script>
 </body>

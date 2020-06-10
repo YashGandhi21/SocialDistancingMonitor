@@ -591,17 +591,21 @@ def getIpFrame():
         #frame = webCamera_Stream(video_capture)
 
         frame = startipWebCam(ip)
+        global globalFrame
+        global heatMapFrame
+
+        globalFrame,heatMapFrame =  integrated_social_distancing(frame)        
 
         if frame is None:
-            print("found frame is none")
+            print("found frame is none from IP cam")
             #Stop the second frame
             break        
         
-        global globalFrame
-        globalFrame = frame
+        #global globalFrame
+        #globalFrame = frame
         #so that automatically second frame we can stream
 
-        frame = cv2.imencode('.jpg', frame)[1].tobytes()
+        frame = cv2.imencode('.jpg', globalFrame)[1].tobytes()
         
         yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
