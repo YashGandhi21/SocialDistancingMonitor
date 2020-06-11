@@ -6,6 +6,12 @@ import io
 from PIL import Image
 import cv2
 
+# Refrences:
+# https://stackoverflow.com/questions/49921721/runtimeerror-main-thread-is-not-in-main-loop-with-matplotlib-and-flask
+# https://matplotlib.org/3.2.1/gallery/misc/print_stdout_sgskip.html?highlight=matplotlib%20use%20agg
+
+import matplotlib
+matplotlib.use('Agg')
 
 def HeatMapAuto(list1,max_x,max_y):
     # if there are no points return blank image
