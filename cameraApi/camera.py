@@ -9,7 +9,8 @@ import platform
 
 def startWebCamera_Stream():
     print("Starting web camera")
-    video_capture = cv2.VideoCapture(0)
+    video_capture = cv2.VideoCapture(0,cv2.CAP_DSHOW)
+    # CAP_DSHOW ===>> DirectShow (via videoInput)
     return video_capture
 
 def openVideoFile_Stream():

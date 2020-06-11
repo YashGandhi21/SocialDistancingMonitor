@@ -97,6 +97,7 @@ def stopCam():
     global video_capture
     try:
         stopWebCamera_Stream(video_capture)
+        cv2.destroyAllWindows()  #used to suppress the warning
     except NameError:
         print("caught nameError of video_Capture only for webcam, direclty hit to /stopCam")
         pass
@@ -594,7 +595,7 @@ def getIpFrame():
         global globalFrame
         global heatMapFrame
 
-        globalFrame,heatMapFrame =  integrated_social_distancing(frame)        
+                
 
         if frame is None:
             print("found frame is none from IP cam")
@@ -604,6 +605,8 @@ def getIpFrame():
         #global globalFrame
         #globalFrame = frame
         #so that automatically second frame we can stream
+
+        globalFrame,heatMapFrame =  integrated_social_distancing(frame)
 
         frame = cv2.imencode('.jpg', globalFrame)[1].tobytes()
         
