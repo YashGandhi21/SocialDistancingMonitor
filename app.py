@@ -13,27 +13,6 @@ Step 3] while not released video_capture yield the frame
 Algorithm Ends.
 
 **************************************************
-
-Issues to resolve, 
-
-1) in cameraApi: path for linux environment. (COMPLETED)
-                if platform.system()=='Windows':
-                    dest = \\.join([target,myfile])
-                elif platform.system()=='Linux':
-                    dest = /.join([target,myfile])
-
-(Requires internet)
-2) Make bootstrap.css locally available in static folder (performance improvement)
-
-3) Reduce global variables by server-side session management
-
-4) Upload video option to make seperate dashboard available.
-
-5) (optional): ip camera from the internet using AngleCam Api 
-
-6) (optional): base templates for jinja2 for extending template logic
-
-
 '''
 
 #Import
@@ -222,7 +201,7 @@ def generatedemo_frame():
     while not frmcnt <= 0:
         
         t_end = time.time() + 1
-        for i in range(origFPS):
+        for _ in range(origFPS):
 
             time.sleep(1/origFPS)
             frame = playVideo(video_capture,wid,hei)
@@ -553,7 +532,7 @@ def getip():
     try:
         if urllib.request.urlopen("http://"+ip+"/shot.jpg").getcode() == 200:
             return redirect(url_for("ipcam"))
-    except urllib.error.URLError as e:
+    except urllib.error.URLError:
         print("Wrong URl entered")
         return render_template("getip.html",message="Wrong Url Entered")
     
