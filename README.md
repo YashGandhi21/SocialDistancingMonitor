@@ -74,5 +74,6 @@ flask run
 deactivate
 ```
 
-
-
+## For using Smart Phone as Camera
+**Download [IP Webcam](https://play.google.com/store/apps/details?id=com.pas.webcam&hl=en_IN) android application from Google Play Strore** <br />
+You will get all the instructions about how to connect inside our application.
