@@ -61,7 +61,7 @@ def HeatMapAuto(list1,max_x,max_y):
         return img1_np_array
 
 
-    x, y = [coord[0] for coord in list1], [coord[1] for coord in list1]
+    x, y = [coord[0] for coord in list1], [max_y-coord[1] for coord in list1]
     # call the kernel density estimator function
     ax = sns.kdeplot(x, y,cmap="coolwarm", shade=True, shade_lowest=False, cbar=False,gridsize=100)
     # the function has additional parameters we can play around with to fine-tune your heatmap, e.g.:
