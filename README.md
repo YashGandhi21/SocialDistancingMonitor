@@ -3,6 +3,12 @@ Social Distancing Monitor Project
 
 ## For Flask Server Execution In windows cmd
 
+### By Double clicking on setup.bat (one time)
+
+### Then to execute application run.bat (always to run)
+
+### OR By Manual Process
+
 **setup python virtual environment**
 
 ```
