@@ -96,6 +96,12 @@ def integrated_social_distancing(frame):
             green_bbox.append(box)
             green_label.append(lab)
             green_conf.append(con)
+
+    # find no of people who arent following and people who are following social distancing
+    num_follow, num_dont_follow = len(green_bbox), len(red_bbox)
+    total_people = num_follow + num_dont_follow
+    print("follow = ",num_follow," dont follw = ",num_dont_follow)
+
     # draw green boxes
     frame = pd.draw_bbox(frame, green_bbox, green_label, green_conf, write_conf=False, colors=(0, 255, 0))
     if len(red_bbox) > 0:
@@ -104,7 +110,7 @@ def integrated_social_distancing(frame):
     #            cv2.FONT_HERSHEY_PLAIN, 1, (0, 255, 0), 3)
 
     frame = np.concatenate((frame, cv2.resize(heatMap_image, (width, height))), axis=1)
-    return frame, top_view_frame,
+    return frame, top_view_frame, total_people, num_follow, num_dont_follow
 
 
 
