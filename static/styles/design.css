@@ -1,0 +1,19 @@
+
+.total {
+color: cadetblue;
+display: inline;
+font-weight: bold !important;
+}
+
+
+.safe {
+color: green;
+display: inline;
+font-weight: bold !important;
+}
+
+.risk{
+color: red;
+display: inline;
+font-weight: bold !important;
+}

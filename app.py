@@ -425,7 +425,12 @@ def generatefirst_sampleframe():
         global globalFrame
         global heatMapFrame
 
-        globalFrame,heatMapFrame =  integrated_social_distancing(frame)
+        globalFrame, heatMapFrame, total_people, num_follow, num_dont_follow =  integrated_social_distancing(frame)
+
+        global jsonData
+        jsonData.update({"total_people":total_people})
+        jsonData.update({"num_follow":num_follow})
+        jsonData.update({"num_dont_follow":num_dont_follow})
 
         
         #frame = globalFrame
@@ -585,7 +590,7 @@ def getIpFrame():
         #globalFrame = frame
         #so that automatically second frame we can stream
 
-        globalFrame,heatMapFrame =  integrated_social_distancing(frame)
+        globalFrame,heatMapFrame, _, _, _ =  integrated_social_distancing(frame)
 
         frame = cv2.imencode('.jpg', globalFrame)[1].tobytes()
         

@@ -100,7 +100,7 @@ def integrated_social_distancing(frame):
     # find no of people who arent following and people who are following social distancing
     num_follow, num_dont_follow = len(green_bbox), len(red_bbox)
     total_people = num_follow + num_dont_follow
-    print("follow = ",num_follow," dont follw = ",num_dont_follow)
+    # print("follow = ",num_follow," dont follw = ",num_dont_follow)
 
     # draw green boxes
     frame = pd.draw_bbox(frame, green_bbox, green_label, green_conf, write_conf=False, colors=(0, 255, 0))
