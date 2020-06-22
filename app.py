@@ -25,10 +25,107 @@ import cv2
 import requests
 import urllib
 from main import integrated_social_distancing
+from flask import flash , session
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager , UserMixin , login_required ,login_user, logout_user,current_user
 
 #Configuring flask
 app = Flask(__name__)
 app.config['DEBUG'] = True
+
+#For adding the Login
+
+app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///db.db'
+app.config['SECRET_KEY']='619619'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=True
+db = SQLAlchemy(app)
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+class User(UserMixin,db.Model):
+    id = db.Column(db.Integer,primary_key=True,autoincrement=True)
+    username = db.Column(db.String(200))
+    email = db.Column(db.String(200))
+    password = db.Column(db.String(200))
+
+# for first time commands to create db 
+# from app import db
+# db.create_all()
+
+@login_manager.user_loader
+def get(id):
+    return User.query.get(id)
+
+@app.route('/login',methods=['GET'])
+def get_login():
+    return render_template('login.html')
+
+@app.route('/signup',methods=['GET'])
+def get_signup():
+    return render_template('signup.html')
+
+@app.route('/login',methods=['POST'])
+def login_post():
+    username = request.form['username']
+    password = request.form['password']
+    print("caught username is = ",username)
+    print("caught password is = ",password)
+    user = User.query.filter_by(username=username,password=password).first()
+
+    if user is not None:
+        session['logged_in'] = True
+        session['username'] = username
+        login_user(user)
+        # flash("Login Successful")
+        # return redirect(url_for('index'))
+        return render_template('index.html',username = username)
+
+    
+    else:
+        print("inCorrect credentials")
+        flash("incorrect credentials")
+        return render_template('login.html')
+
+@app.route('/signup',methods=['POST'])
+def signup_post():
+    username = request.form['username']
+    email = request.form['email']
+    password = request.form['password']
+    print("inserting in db is ,")
+    print("username is = ",username)
+    print("email is = ",email)
+    print("password is = ",password)
+    user = User(username=username,email=email,password=password)
+    db.session.add(user)
+    db.session.commit()
+    user = User.query.filter_by(username=username).first()
+    session['logged_in'] = True
+    session['username'] = username
+    login_user(user)
+    #return redirect(url_for('index'))
+    return render_template('index.html',username = username)
+
+@app.route('/logout',methods=['GET'])
+def logout():
+    if session.get('logged_in'):
+        print("user log out")
+        flash("logout successful")
+        session.pop('logged_in', None)
+        session.pop('username', None)
+        logout_user()
+    return redirect('/login')
+
+
+@app.route('/index')
+@login_required
+def index():
+    print("user in index page")
+    return render_template('index.html',username=" ")
+
+
+
+
 
 #global variables
 
@@ -52,9 +149,9 @@ ip = None
 
 #First function that gets invoked when visited home page.
 @app.route('/')
-def index():
-    print("User in home page")
-    return render_template('index.html')
+def base():
+    print("User in login page")
+    return render_template('login.html')
 
 
 #stop the stream, No matter who started.
@@ -402,6 +499,7 @@ def pausebirdseye():
 #FOR SAMPLE VIDEO
 
 @app.route('/sample')
+@login_required
 def sample():
     global StopAllFrames
     StopAllFrames = False
@@ -520,6 +618,7 @@ def secondsample():
 # take input ip from the web browser and fetch shots from that ip
 # 
 @app.route('/getip',methods=['GET', 'POST'])
+@login_required
 def getip():
     global ip
     ip = request.form.get("ip")
@@ -549,6 +648,7 @@ def getip():
 
 
 @app.route('/ipcam',methods=['GET', 'POST'])
+@login_required
 def ipcam():
     global ip
     global StopAllFrames

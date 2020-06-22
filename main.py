@@ -139,7 +139,7 @@ def main():
             status, frame = video.read()
             if not status:
                 break
-            frame, top_view = integrated_social_distancing(frame)
+            frame, top_view, _, _, _ = integrated_social_distancing(frame)
             cv2.imshow("Person Detector", frame)
             cv2.imshow("Bird's Eye View", top_view)
 
