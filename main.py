@@ -67,6 +67,7 @@ def integrated_social_distancing(frame):
     top_view_frame, red_coordinates = dm.fetchRedCoordinatesFromCoordinates(mapped_points_dict, 115, mapped_width, mapped_height)
     # top_view_frame = cv2.resize(top_view_frame, (frame.shape[1], frame.shape[0]))
     # cv2.imshow("TopView", top_view_frame)
+    # defualt parameter for distance factor is added
 
     # Heat-Map Module calls
     # TODO: Make it work properly on BGR format.

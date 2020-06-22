@@ -26,7 +26,7 @@ def drawDots(img, x, y, colour):
     return img
 
 
-def monitorSocialDistancing(img, coordinates, minTreshold):
+def monitorSocialDistancing(img, coordinates, minTreshold, distance_factor):
     red_dots = []
     for x1, y1 in coordinates:
         check_colour = 0
@@ -40,6 +40,8 @@ def monitorSocialDistancing(img, coordinates, minTreshold):
                 img = drawDots(img, x2, y2, "red")
                 red_dots.append((x1, y1))
                 red_dots.append((x2, y2))
+                img = cv2.line(img, (x1, y1), (x2, y2), (0, 0, 255), 1)
+                img = cv2.putText(img, str(float("{:.2f}".format(distance + distance_factor))), ( int((x1 + x2)/2) - 20, int((y1 + y2) /2) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 255), 0, cv2.LINE_AA)
 
     temp_red_dots = set(red_dots)
     red_dots = list(temp_red_dots)
@@ -63,7 +65,7 @@ def originalCoordinatesOfRedDots(coordinates, red_dots):
     return red_coordinates
 
 
-def fetchRedCoordinatesFromCoordinates(coordinates, minTreshold, widthOfFrame, heightOfFrame):
+def fetchRedCoordinatesFromCoordinates(coordinates, minTreshold, widthOfFrame, heightOfFrame, distance_factor = 115):
     # Make empty black image of size width and height
     img = np.zeros((heightOfFrame, widthOfFrame, 3), np.uint8)
 
@@ -71,7 +73,7 @@ def fetchRedCoordinatesFromCoordinates(coordinates, minTreshold, widthOfFrame, h
 
     img = plotPoints(img, new_coordinates)
 
-    img, red_dots = monitorSocialDistancing(img, new_coordinates, minTreshold)
+    img, red_dots = monitorSocialDistancing(img, new_coordinates, minTreshold, distance_factor)
 
     red_coordinates = originalCoordinatesOfRedDots(coordinates, red_dots)
 
