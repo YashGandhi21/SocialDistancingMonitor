@@ -109,6 +109,8 @@ def integrated_social_distancing(frame):
         frame = pd.draw_bbox(frame, red_bbox, red_label, red_conf, write_conf=False, colors=(0, 0, 255))
     # cv2.putText(frame, "FPS: " + str(round(1.0 / (time.time() - start_time), 2)), (10, 50),
     #            cv2.FONT_HERSHEY_PLAIN, 1, (0, 255, 0), 3)
+    if len(red_bbox) > 1:
+        frame = cv2.putText(frame, "Alert: Social Distancing Norms Violating", (5,25), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2, cv2.LINE_AA)
 
     frame = np.concatenate((frame, cv2.resize(heatMap_image, (width, height))), axis=1)
     return frame, top_view_frame, total_people, num_follow, num_dont_follow
@@ -140,7 +142,7 @@ def main():
             status, frame = video.read()
             if not status:
                 break
-            frame, top_view = integrated_social_distancing(frame)
+            frame, top_view, _, _, _ = integrated_social_distancing(frame)
             cv2.imshow("Person Detector", frame)
             cv2.imshow("Bird's Eye View", top_view)
 

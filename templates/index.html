@@ -14,7 +14,7 @@
     <br> <br>
     <div class="row">
         <div class="col-9">
-            <h1>Persistent Hackathon</h1>
+            <h1>Welcome {{username}} to Hackathon</h1>
         </div>
         <div class="col-3">
             <img src ="{{ url_for('static',filename='logo.png') }}" width="80%" height="80%" >
@@ -28,9 +28,7 @@
     <br>
     
         <div class="row">
-            
-                <a href="./camera" >camera view only</a>
-            
+        <a href="./camera" >camera view only (mirror)</a>    
         </div>
         <br>
         <div class="row">
@@ -38,11 +36,11 @@
         </div>
         <br>
         <div class="row">
-            <a href="./demo">Show a demo</a>
+            <a href="./demo">Show a demo video running</a>
         </div>
         <br>
         <div class="row">
-            <a href="./double">Show a Double</a>
+            <a href="./double">Show a live Face Detection</a>
         </div>
         <br>
         <div class="row">
@@ -51,6 +49,10 @@
         <br>
         <div class="row">
             <a href="./sample">Show a Sample video</a>
+        </div>
+        <br>
+        <div class="row">
+            <a href="./logout">Logout</a>
         </div>
    
 </div>
