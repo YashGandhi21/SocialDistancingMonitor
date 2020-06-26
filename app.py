@@ -29,6 +29,8 @@ from flask import flash , session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager , UserMixin , login_required ,login_user, logout_user,current_user
 from cameraApi.streamer import Streamer
+from image_database import store_images
+from PIL import Image
 
 #Configuring flask
 app = Flask(__name__)
@@ -451,7 +453,8 @@ def pauseFirst():
     print("paused First frame sent ")
     pausedFrame = None
     global globalFrame
-    # Harshal Your code will be called here 
+    img = Image.fromarray(globalFrame, 'RGB')	
+    store_images(img)
     pausedFrame = cv2.imencode('.jpg', globalFrame)[1].tobytes()
 
     res = make_response(pausedFrame)
