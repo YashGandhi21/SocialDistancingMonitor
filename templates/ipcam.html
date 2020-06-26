@@ -4,6 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="{{ url_for('static',filename='styles/design.css') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>Live Demo Streaming Demonstration</title>
 </head>
@@ -14,7 +15,7 @@
             <br>
         <div class="row">
             <div class="col">
-                <h3 >Live Mobile Demo Streaming Demonstration</h3>
+                <h3 >Live Demo Streaming Demonstration</h3>
             </div>
             <div class="col">
                 <h3 >Birds Eye View is Shown Here</h3>
@@ -25,24 +26,24 @@
         
         <div class="row">
             
-            <div class="col-sm-8">
+            <div class="col">
                 <!-- <div class="col-sm"> -->
                 <!-- <h3 class="mt-5">Live Demo Streaming Demonstration</h3> -->
                 <!-- <img src="{{ url_for('static',filename='logo.png') }}" width="50%"> -->
                 <img src="{{ url_for('ipstream') }}" width="95%" height="100%">
             </div>
-            <div class="col-sm-4">
-                
-                <!-- <h3 class="mt-5">Second File live streaming Demo</h3> -->
-                <!-- <img src="{{ url_for('static',filename='logo.png') }}" width="50%"> -->
-                <img src="{{ url_for('secondsample') }}" width="95%" height="100%">
-            </div>
+
         </div>
         <br>
         <br>
         <div class="row">
             <div class="col-sm-8">
-                Person Detection and HeatMap is Shown here
+               <div class="total" style="display:inline"> Total Count: <p id="total" style="display:inline" ></p> </div>
+                
+                <div class="safe" style="display:inline"> Safe Count: <p id="safe" style="display:inline" ></p> </div>
+                
+                <div class="risk" style="display:inline"> Risk Count: <p id="risk" style="display:inline" ></p> </div>
+
             </div>
             <div class="col-sm-4">
                 <!-- Faces Found are = <p id="count" style="display:inline" >temp text</p> -->
@@ -52,7 +53,7 @@
 
         <br>
         <!-- <a href="{{ url_for('stopCam') }}">StopCam</a> -->
-        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('index') }}">StopCam</a>
         <br>
         <input type="button" id="btn" value="Capture" />
         <input type="button" id="del" value="Clear"/>
@@ -63,11 +64,11 @@
 
         <br>
         <div class="row" id="lastrow">
-            <div class="col">
-                <p id="localText" style="display:inline" ></p>
+            <div class="col-sm-8">
+                <p id="count" style="display:inline" ></p>
             </div>
-            <div class="col">
-                <p id="counted" style="display:inline" ></p>
+            <div class="col-sm-4">
+                <p id="Bview" style="display:inline" ></p>
             </div>
         </div>
     </center>
@@ -77,52 +78,44 @@
 
 //var gblCount = 0
 
-    document.getElementById('btn').onclick = function() {
+document.getElementById('btn').onclick = function() {
         var mynewline = document.createElement('br')
+
         var firstRow = document.createElement('div')
         firstRow.setAttribute("class","row");
-        //document.getElementById("captures").appendChild(firstRow)
 
         var img1 = new Image();
         src1 = "{{ url_for('pauseFirst') }}"
-                
-                //img = document.createElement('img');
+
         img1.src = src1;
         img1.id = "pauseFirst"
-        img1.setAttribute("class","rounded float-right col-sm-8")
+        img1.setAttribute("class","rounded float-right col")
         //img1.width = "100%"
         img1.setAttribute("width","100%")
         img1.setAttribute("height","100%")
-        //document.body.appendChild(img1);
+        
 
         // document.getElementById("captures").appendChild(firstRow)
         firstRow.appendChild(img1)
 
-        //document.getElementById("firstImage").appendChild(img1)
-        // document.getElementById("firstImage").appendChild(document.createElement('br'))
-        // document.getElementById("firstImage").appendChild(document.createElement('br'))
-        // document.getElementById("firstImage").appendChild(document.createElement('br'))
-        // document.getElementById("firstImage").appendChild(document.createElement('br'))
-        // document.getElementById("firstImage").appendChild(document.createElement('br'))
-
-        var img2 = new Image();
-        src2 = "{{ url_for('pausebirdseye') }}"
-        img2.src = src2;
-        img2.id = "pauseSecond"
-        img2.setAttribute("class","rounded float-left col-sm-4")
-        //img2.width = "100%"
-        img2.setAttribute("width","100%")
-        img2.setAttribute("height","100%")
+        // var img2 = new Image();
+        // src2 = "{{ url_for('pausebirdseye') }}"
+        // img2.src = src2;
+        // img2.id = "pauseSecond"
+        // img2.setAttribute("class","rounded float-left col-sm-4")
+        // //img2.width = "100%"
+        // img2.setAttribute("width","100%")
+        // img2.setAttribute("height","100%")
         
-        firstRow.appendChild(img2)
+        // firstRow.appendChild(img2)
         //document.getElementById("secondImage").appendChild(img2)
         firstRow.appendChild(mynewline.cloneNode())
         //firstRow.appendChild(document.createElement('br'))
         //firstRow.appendChild(document.createElement('br'))
 
-        firstRow.appendChild(document.createTextNode('l'))
+        
 
-        document.getElementById("captures").appendChild(firstRow)
+        
 
         // document.getElementById("secondImage").appendChild(document.createElement('br'))
         // document.getElementById("secondImage").appendChild(document.createElement('br'))
@@ -132,28 +125,80 @@
         //document.body.appendChild(img2);
 
         //for adding text
+        var TempMessage
+        fetch("{{ url_for('stream_json') }}").then(response =>
+        {
+            response.text().then(t=> { 
+                obj=JSON.parse(t);
 
-//     fetch("{{ url_for('stream_json') }}").then(response => {
+                t = obj["total_people"]; 
+                var totalCount = t
+                //TempMessage = "<div class='total' style='display:inline'> Total Count: "+ t + "</div> ";
+                //document.getElementById("count").innerHTML = TempMessage;
 
-//         response.text().then(t=> { 
-//                 obj=JSON.parse(t); 
-//                 t = obj["count"];
-         
-//         //document.getElementById("counted").innerHTML = "Faces found in above frame is = "+ t;
-//         //document.getElementById("localText").innerHTML = "No Face Detection applied here";
-//         //document.getElementById("lastrow").appendChild()
-//             //gblCount = t
-//             })
-     
+                t = obj["num_follow"];
+                var safeCount = t
+                //TempMessage = "<div class='safe' style='display:inline'> Safe Count: "+ t + "</div> " ;
+                //document.getElementById("count").innerHTML += TempMessage;
 
-//  });
+                t = obj["num_dont_follow"];
+                var riskCount = t;
+                //TempMessage = "<div class='risk' style='display:inline'> Risk Count: "+ t + "</div> <br>";
+                //document.getElementById("count").innerHTML += TempMessage;
+                
+                firstRow.appendChild(mynewline.cloneNode())
+                firstRow.appendChild(document.createTextNode('l'))
+
+                var firstCol = document.createElement('div')
+                firstCol.setAttribute("class","col-sm-8")
+
+                //create div tags above and append in first row
+                var divTotal = document.createElement('div')
+                divTotal.setAttribute("class","total")
+                divTotal.setAttribute("style","display:inline")
+                divTotal.innerHTML= "<br>Total Count: "+ obj["total_people"]+ " ";
+
+                firstCol.appendChild(divTotal)
+
+                var divSafe = document.createElement('div')
+                divSafe.setAttribute("class","safe")
+                divSafe.setAttribute("style","display:inline")
+                divSafe.innerHTML= " Safe Count: "+ obj["num_follow"]+ " ";
+
+                firstCol.appendChild(divSafe) 
+
+                var divRisk = document.createElement('div')
+                divRisk.setAttribute("class","risk")
+                divRisk.setAttribute("style","display:inline")
+                divRisk.innerHTML= " Risk Count: "+ obj["num_dont_follow"]+ " ";
+
+                firstCol.appendChild(divRisk) 
 
                 
-        console.log("2 image added")
+
+                firstRow.appendChild(firstCol)
+                //this is at end
+
+
+                document.getElementById("captures").appendChild(firstRow)
+
+                console.log("1 image added")
+         
+            //document.getElementById("counted").innerHTML = "Faces found in above frame is = "+ t;
+            //document.getElementById("localText").innerHTML = "No Face Detection applied here";
+            //document.getElementById("lastrow").appendChild()
+            //gblCount = t
+                })
+     
+
+        });
+
+                
+        
 
                 //src = '';
 
-        }
+}
 
     document.getElementById("del").onclick = function() {
         // var img1 = document.getElementById('pauseFirst')
@@ -168,6 +213,8 @@
         //firstrow.childNodes.forEach(n=> {console.log("attempt to remove "+ n);})
         console.log("attempt to remove "+ firstrow.childNodes[0])
         firstrow.removeChild(firstrow.childNodes[0])
+
+        document.getElementById("count").innerHTML = "";
         //clist.remove
         
     }
@@ -176,22 +223,27 @@
 //This is for getting the JSON data
 
 // var count = document.getElementById("count");
-// setInterval(() => {
-// fetch("{{ url_for('stream_json') }}").then(
-//  response => {
+var total = document.getElementById("total") 
+var safe = document.getElementById("safe")
+var risk = document.getElementById("risk")
+setInterval(() => {
+fetch("{{ url_for('stream_json') }}").then(
+ response => {
      
      
-//      response.text().then(t=> { 
-//         obj=JSON.parse(t); 
-//         t = obj["count"]; 
-//         count.innerHTML = t;
-//         //gblCount = t
-//         })
+     response.text().then(t=> { 
+        obj=JSON.parse(t); 
+        t = obj["total_people"]; total.innerHTML = t;
+        t = obj["num_follow"]; safe.innerHTML = t;
+        t = obj["num_dont_follow"]; risk.innerHTML = t;
+
+        //gblCount = t
+        })
      
 
-//  });
+ });
  
-// },500);
+},1000);
 
 </script>
 </body>
