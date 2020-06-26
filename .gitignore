@@ -8,3 +8,6 @@ PersonDetector/yolov3.weights
 Homography matrix
 Image Size
 Homography/__pycache__
+image_folder/
+images.db
+.vs/

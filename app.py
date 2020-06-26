@@ -29,7 +29,7 @@ from flask import flash , session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager , UserMixin , login_required ,login_user, logout_user,current_user
 from cameraApi.streamer import Streamer
-from image_database import store_images
+from view_db_contents import store_images
 from PIL import Image
 
 #Configuring flask
@@ -453,7 +453,10 @@ def pauseFirst():
     print("paused First frame sent ")
     pausedFrame = None
     global globalFrame
-    img = Image.fromarray(globalFrame, 'RGB')	
+    img = globalFrame
+    img = img[:,:,::-1]	# The data has 3 dimensions: width, height, and color. ::-1 effectively reverses the order of the colors. The width and height are not affected
+    img = Image.fromarray(img, 'RGB')
+    
     store_images(img)
     pausedFrame = cv2.imencode('.jpg', globalFrame)[1].tobytes()
 
