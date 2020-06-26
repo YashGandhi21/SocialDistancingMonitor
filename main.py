@@ -113,6 +113,7 @@ def integrated_social_distancing(frame):
         frame = cv2.putText(frame, "Alert: Social Distancing Norms Violating", (5,25), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2, cv2.LINE_AA)
 
     frame = np.concatenate((frame, cv2.resize(heatMap_image, (width, height))), axis=1)
+    frame = np.concatenate((frame, cv2.resize(top_view_frame, (width, height))), axis=1)
     return frame, top_view_frame, total_people, num_follow, num_dont_follow
 
 

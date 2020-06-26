@@ -28,6 +28,7 @@ from main import integrated_social_distancing
 from flask import flash , session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager , UserMixin , login_required ,login_user, logout_user,current_user
+from cameraApi.streamer import Streamer
 
 #Configuring flask
 app = Flask(__name__)
@@ -450,6 +451,7 @@ def pauseFirst():
     print("paused First frame sent ")
     pausedFrame = None
     global globalFrame
+    # Harshal Your code will be called here 
     pausedFrame = cv2.imencode('.jpg', globalFrame)[1].tobytes()
 
     res = make_response(pausedFrame)
@@ -506,17 +508,21 @@ def sample():
     return render_template('sample.html')
 
 def generatefirst_sampleframe():
-    global video_capture
+    # global video_capture
+    streamer_obj = Streamer()
+    video_capture = streamer_obj.generateStream(VideoName=None)
+
     print("inside call start cam")
-    #video_capture = startWebCamera_Stream()
-    video_capture = openVideoFile_Stream()
+    # video_capture = startWebCamera_Stream()
+    # video_capture = openVideoFile_Stream()
     while True:
         #frame = webCamera_Stream(video_capture)
 
         #frame = GetOnlyCamFrame(video_capture) # HERE WE CAN PROCESS FRAME
-        ret, frame = video_capture.read()
+        # ret, frame = video_capture.read()
+        frame = streamer_obj.getframe(video_capture)
 
-        if frame is None or not ret:
+        if frame is None:
             print("found frame is none")
             break        
         

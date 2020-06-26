@@ -26,18 +26,13 @@
         
         <div class="row">
             
-            <div class="col-sm-8">
+            <div class="col">
                 <!-- <div class="col-sm"> -->
                 <!-- <h3 class="mt-5">Live Demo Streaming Demonstration</h3> -->
                 <!-- <img src="{{ url_for('static',filename='logo.png') }}" width="50%"> -->
                 <img src="{{ url_for('firstsample') }}" width="95%" height="100%">
             </div>
-            <div class="col-sm-4">
-                
-                <!-- <h3 class="mt-5">Second File live streaming Demo</h3> -->
-                <!-- <img src="{{ url_for('static',filename='logo.png') }}" width="50%"> -->
-                <img src="{{ url_for('secondsample') }}" width="95%" height="100%">
-            </div>
+
         </div>
         <br>
         <br>
@@ -94,7 +89,7 @@ document.getElementById('btn').onclick = function() {
 
         img1.src = src1;
         img1.id = "pauseFirst"
-        img1.setAttribute("class","rounded float-right col-sm-8")
+        img1.setAttribute("class","rounded float-right col")
         //img1.width = "100%"
         img1.setAttribute("width","100%")
         img1.setAttribute("height","100%")
@@ -103,16 +98,16 @@ document.getElementById('btn').onclick = function() {
         // document.getElementById("captures").appendChild(firstRow)
         firstRow.appendChild(img1)
 
-        var img2 = new Image();
-        src2 = "{{ url_for('pausebirdseye') }}"
-        img2.src = src2;
-        img2.id = "pauseSecond"
-        img2.setAttribute("class","rounded float-left col-sm-4")
-        //img2.width = "100%"
-        img2.setAttribute("width","100%")
-        img2.setAttribute("height","100%")
+        // var img2 = new Image();
+        // src2 = "{{ url_for('pausebirdseye') }}"
+        // img2.src = src2;
+        // img2.id = "pauseSecond"
+        // img2.setAttribute("class","rounded float-left col-sm-4")
+        // //img2.width = "100%"
+        // img2.setAttribute("width","100%")
+        // img2.setAttribute("height","100%")
         
-        firstRow.appendChild(img2)
+        // firstRow.appendChild(img2)
         //document.getElementById("secondImage").appendChild(img2)
         firstRow.appendChild(mynewline.cloneNode())
         //firstRow.appendChild(document.createElement('br'))
@@ -187,7 +182,7 @@ document.getElementById('btn').onclick = function() {
 
                 document.getElementById("captures").appendChild(firstRow)
 
-                console.log("2 image added")
+                console.log("1 image added")
          
             //document.getElementById("counted").innerHTML = "Faces found in above frame is = "+ t;
             //document.getElementById("localText").innerHTML = "No Face Detection applied here";
